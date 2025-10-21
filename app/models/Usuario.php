@@ -21,9 +21,51 @@ class Usuario {
         return $stmt;
     }
 
+    public function getClientes() {
+        $query = "SELECT * FROM usuarios WHERE rol = 'cliente' AND estado = 'activo' ORDER BY nombre ASC";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getClienteById($id) {
+        $query = "SELECT * FROM usuarios WHERE id = :id AND rol = 'cliente'";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function createCliente($data) {
+        $query = "INSERT INTO usuarios (nombre, email, telefono, rol, password, estado) VALUES (:nombre, :email, :telefono, 'cliente', :password, 'activo')";
+        $stmt = $this->conn->prepare($query);
+        $hashedPassword = password_hash($data['password'], PASSWORD_DEFAULT);
+        $stmt->bindParam(':nombre', $data['nombre']);
+        $stmt->bindParam(':email', $data['email']);
+        $stmt->bindParam(':telefono', $data['telefono']);
+        $stmt->bindParam(':password', $hashedPassword);
+        $stmt->execute();
+    }
+
+    public function updateCliente($id, $data) {
+        $query = "UPDATE usuarios SET nombre = :nombre, email = :email, telefono = :telefono WHERE id = :id AND rol = 'cliente'";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':nombre', $data['nombre']);
+        $stmt->bindParam(':email', $data['email']);
+        $stmt->bindParam(':telefono', $data['telefono']);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+    }
+
+    public function deleteCliente($id) {
+        $query = "UPDATE usuarios SET estado = 'inactivo' WHERE id = :id AND rol = 'cliente'";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+    }
 
     public function create() {
-        $query = "INSERT INTO " . $this->table . " SET nombre=:nombre, email=:email, password=:password, rol=:rol";
+        $query = "INSERT INTO " . $this->table . " SET nombre=:nombre, email=:email, password=:password, rol=:rol, estado='activo'";
         $stmt = $this->conn->prepare($query);
 
         // Encriptar password
@@ -38,14 +80,14 @@ class Usuario {
     }
 
     public function readAll() {
-        $query = "SELECT id, nombre, email, rol FROM " . $this->table;
+        $query = "SELECT id, nombre, email, rol, estado FROM " . $this->table . " WHERE estado = 'activo'";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt;
     }
 
     public function readOne() {
-        $query = "SELECT id, nombre, email, rol FROM " . $this->table . " WHERE id = ? LIMIT 0,1";
+        $query = "SELECT id, nombre, email, rol, estado FROM " . $this->table . " WHERE id = ? AND estado = 'activo' LIMIT 0,1";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(1, $this->id);
         $stmt->execute();
@@ -81,7 +123,7 @@ class Usuario {
     }
 
     public function delete() {
-        $query = "DELETE FROM " . $this->table . " WHERE id=:id";
+        $query = "UPDATE " . $this->table . " SET estado = 'inactivo' WHERE id=:id";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":id", $this->id);
         return $stmt->execute();
