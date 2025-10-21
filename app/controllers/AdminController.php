@@ -1,6 +1,7 @@
 <?php
 require_once APP_ROOT . '/models/Usuario.php';
 require_once APP_ROOT . '/config/database.php';
+require_once APP_ROOT . '/controllers/AuthController.php';
 
 class AdminController {
     private $db;
@@ -20,7 +21,11 @@ class AdminController {
     }
 
     public function dashboard() {
-        // Incluir la vista del dashboard administrador
+        // Evitar cache para evitar acceso tras logout con botón atrás
+        header('Cache-Control: no-cache, no-store, must-revalidate'); // HTTP 1.1.
+        header('Pragma: no-cache'); // HTTP 1.0.
+        header('Expires: 0'); // Proxies.
+        AuthController::checkAuth();
         require_once APP_ROOT . '/views/admin/dashboard.php';
     }
 
