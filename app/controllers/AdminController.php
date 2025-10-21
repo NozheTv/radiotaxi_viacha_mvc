@@ -46,6 +46,11 @@ class AdminController {
         exit;
     }
 
+        public function radiotaxis() {
+        header('Location: ' . BASE_URL . 'radiotaxis');
+        exit;
+    }
+
 
 
 
