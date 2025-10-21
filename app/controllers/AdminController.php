@@ -29,6 +29,13 @@ class AdminController {
         require_once APP_ROOT . '/views/admin/dashboard.php';
     }
 
+    public function clientes() {
+        // Redirigir a ClientesController index
+        header('Location: ' . BASE_URL . 'clientes');
+        exit;
+    }
+
+
     // Mostrar usuario por ID
     public function show($id) {
         $this->usuarioModel->id = $id;
