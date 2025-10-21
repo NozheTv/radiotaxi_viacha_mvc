@@ -11,16 +11,16 @@ require_once APP_ROOT . '/views/partials/sidebar.php';
             <legend>Información de Cliente</legend>
 
             <label for="nombre">Nombre:</label>
-            <input type="text" id="nombre" name="nombre" required placeholder="Nombre completo" />
+            <input type="text" id="nombre" name="nombre" required placeholder="Nombre completo" maxlength="40"/>
 
             <label for="email">Correo Electrónico:</label>
-            <input type="email" id="email" name="email" required placeholder="cliente@correo.com" />
+            <input type="email" id="email" name="email" required placeholder="cliente@correo.com" maxlength="40"/>
 
             <label for="telefono">Teléfono:</label>
-            <input type="tel" id="telefono" name="telefono" placeholder="Opcional" />
+            <input type="tel" id="telefono" name="telefono" required placeholder="Opcional" maxlength="15" pattern="[0-9]{0,15}" inputmode="numeric"/>
 
             <label for="password">Contraseña:</label>
-            <input type="password" id="password" name="password" required placeholder="Contraseña" />
+            <input type="password" id="password" name="password"  required placeholder="Contraseña" maxlength="30"/>
 
             <button type="submit">Guardar Cliente</button>
         </fieldset>

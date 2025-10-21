@@ -16,7 +16,7 @@ body {
 
 /* Header */
 .dashboard-header {
-    background-color: #2f3d4a;
+    background-color: #28a745; /* verde sólido */
     color: #fff;
     padding: 1rem 2rem;
     box-shadow: 0 2px 8px rgba(0,0,0,0.15);
@@ -24,22 +24,24 @@ body {
 
 /* Footer */
 .dashboard-footer {
-    background-color: #2f3d4a;
-    color: #bbb;
+    background: linear-gradient(to right, #28a745, #ffc107); /* verde → amarillo */
+    color: #fff;
     padding: 1rem 2rem;
     text-align: center;
     margin-top: auto;
+    font-weight: 600;
 }
 
-/* Barra lateral */
+/* Barra lateral (sidebar) */
 .dashboard-nav {
-    background-color: #1a252f;
+    background: linear-gradient(to bottom, #28a745, #ffffff, #ffc107); /* verde → blanco → amarillo */
     width: 220px;
     min-height: calc(100vh - 80px);
     padding-top: 2rem;
     position: fixed;
     top: 80px;
     left: 0;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .dashboard-nav ul {
@@ -51,17 +53,19 @@ body {
 }
 
 .dashboard-nav a {
-    color: #ccc;
+    color: #222;
     text-decoration: none;
     display: block;
     padding: 0.5rem 2rem;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    font-weight: 500;
 }
 
 .dashboard-nav a:hover,
 .dashboard-nav a:focus {
-    background-color: #4068c7;
-    color: #fff;
+    background-color: #28a745;
+    color: white;
+    border-radius: 4px;
 }
 
 /* Contenido principal */
@@ -71,7 +75,7 @@ body {
     flex-grow: 1;
 }
 
-/* Titulos */
+/* Títulos */
 h1, h2 {
     font-weight: 700;
 }

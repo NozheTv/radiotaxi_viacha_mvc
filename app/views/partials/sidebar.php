@@ -1,5 +1,6 @@
 <nav class="dashboard-nav">
     <ul>
+        <li><a href="<?php echo BASE_URL; ?>admin/dashboard">Presentacion</a></li>
         <li><a href="<?php echo BASE_URL; ?>clientes">Clientes</a></li>
         <li><a href="<?php echo BASE_URL; ?>conductores">Conductores</a></li>
         <li><a href="<?php echo BASE_URL; ?>radiotaxis">Radio Taxis</a></li>
