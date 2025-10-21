@@ -30,10 +30,15 @@ class AdminController {
     }
 
     public function clientes() {
-        // Redirigir a ClientesController index
         header('Location: ' . BASE_URL . 'clientes');
         exit;
     }
+    public function conductores() {
+        header('Location: ' . BASE_URL . 'conductores');
+        exit;
+    }
+
+
 
 
     // Mostrar usuario por ID
