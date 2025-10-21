@@ -1,62 +1,71 @@
-/* Tabla para listado de historial rutas */
+/* ==== TABLA: Historial de Rutas ==== */
 table {
     width: 100%;
     border-collapse: collapse;
     background-color: #fff;
     border-radius: 8px;
     overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
     margin-top: 1rem;
 }
 
 thead {
-    background-color: #4068c7;
-    color: white;
+    background-color: #40c766;
+    color: #fff;
 }
 
 thead th {
     padding: 1rem;
     text-align: left;
+    font-weight: 600;
 }
 
 tbody td {
     padding: 0.75rem 1rem;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #e5e5e5;
+    color: #333;
+    vertical-align: middle;
 }
 
 tbody tr:hover {
     background-color: #f0f4ff;
 }
 
-/* Enlaces para ver detalles */
+/* ==== ENLACES: Ver Detalle ==== */
 a {
-    color: #4068c7;
+    color: #40c749;
     text-decoration: none;
     font-weight: 600;
+    transition: color 0.2s ease;
 }
 
 a:hover {
     text-decoration: underline;
+    color: #2f3d4a;
 }
 
-/* Sección de detalle */
+/* ==== SECCIÓN DE DETALLE DE VIAJE ==== */
 main.dashboard-main section {
     background-color: #fff;
-    padding: 1.5rem 2rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
     max-width: 800px;
+    margin-bottom: 2rem;
 }
 
-/* Listas de información */
+/* ==== TÍTULOS DE SUBSECCIÓN ==== */
 section h3 {
-    margin-top: 1rem;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
     color: #2f3d4a;
+    font-size: 1.25rem;
     font-weight: 700;
-    border-bottom: 2px solid #4068c7;
-    padding-bottom: 0.25rem;
+    border-bottom: 2px solid #40c75d;
+    padding-bottom: 0.3rem;
 }
 
+/* ==== LISTAS DE DATOS ==== */
 ul {
     list-style: none;
     padding-left: 0;
@@ -65,18 +74,23 @@ ul {
 
 ul li {
     font-size: 1rem;
-    padding: 0.25rem 0;
-    color: #333;
+    padding: 0.3rem 0;
+    color: #444;
+    line-height: 1.4;
 }
 
-/* Pre para JSON formateado */
+/* ==== BLOQUE DE JSON (DETALLES RUTA) ==== */
 pre {
     background-color: #f7f9fc;
     padding: 1rem;
     border-radius: 8px;
     overflow-x: auto;
-    font-family: monospace;
-    color: #444;
+    font-family: 'Courier New', Courier, monospace;
+    color: #333;
+    font-size: 0.95rem;
     max-height: 300px;
+    white-space: pre-wrap;
+    word-break: break-word;
     margin-bottom: 1.5rem;
+    border: 1px solid #e0e0e0;
 }
