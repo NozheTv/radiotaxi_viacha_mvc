@@ -41,6 +41,11 @@ class AdminController {
         header('Location: ' . BASE_URL . 'rutas');
         exit;
     }
+    public function geocercas() {
+        header('Location: ' . BASE_URL . 'geocercas');
+        exit;
+    }
+
 
 
 
