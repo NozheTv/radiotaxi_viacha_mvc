@@ -64,6 +64,55 @@ class Usuario {
         $stmt->execute();
     }
 
+    // Obtener conductores activos
+    public function getConductores() {
+        $query = "SELECT * FROM usuarios WHERE rol = 'conductor' AND estado = 'activo' ORDER BY nombre ASC";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // Obtener conductor por id
+    public function getConductorById($id) {
+        $query = "SELECT * FROM usuarios WHERE id = :id AND rol = 'conductor'";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    // Crear conductor nuevo
+    public function createConductor($data) {
+        $query = "INSERT INTO usuarios (nombre, email, telefono, rol, password, estado) VALUES (:nombre, :email, :telefono, 'conductor', :password, 'activo')";
+        $stmt = $this->conn->prepare($query);
+        $hashedPassword = password_hash($data['password'], PASSWORD_DEFAULT);
+        $stmt->bindParam(':nombre', $data['nombre']);
+        $stmt->bindParam(':email', $data['email']);
+        $stmt->bindParam(':telefono', $data['telefono']);
+        $stmt->bindParam(':password', $hashedPassword);
+        $stmt->execute();
+    }
+
+    // Actualizar conductor
+    public function updateConductor($id, $data) {
+        $query = "UPDATE usuarios SET nombre = :nombre, email = :email, telefono = :telefono WHERE id = :id AND rol = 'conductor'";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':nombre', $data['nombre']);
+        $stmt->bindParam(':email', $data['email']);
+        $stmt->bindParam(':telefono', $data['telefono']);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+    }
+
+    // Eliminar conductor (poner en estado inactivo)
+    public function deleteConductor($id) {
+        $query = "UPDATE usuarios SET estado = 'inactivo' WHERE id = :id AND rol = 'conductor'";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+    }
+
+
     public function create() {
         $query = "INSERT INTO " . $this->table . " SET nombre=:nombre, email=:email, password=:password, rol=:rol, estado='activo'";
         $stmt = $this->conn->prepare($query);

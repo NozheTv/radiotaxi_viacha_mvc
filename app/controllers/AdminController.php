@@ -37,6 +37,11 @@ class AdminController {
         header('Location: ' . BASE_URL . 'conductores');
         exit;
     }
+    public function rutas() {
+        header('Location: ' . BASE_URL . 'rutas');
+        exit;
+    }
+
 
 
 
