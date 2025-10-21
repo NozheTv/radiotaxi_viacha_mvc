@@ -1,0 +1,82 @@
+/* Tabla para listado de historial rutas */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    margin-top: 1rem;
+}
+
+thead {
+    background-color: #4068c7;
+    color: white;
+}
+
+thead th {
+    padding: 1rem;
+    text-align: left;
+}
+
+tbody td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid #ddd;
+}
+
+tbody tr:hover {
+    background-color: #f0f4ff;
+}
+
+/* Enlaces para ver detalles */
+a {
+    color: #4068c7;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Sección de detalle */
+main.dashboard-main section {
+    background-color: #fff;
+    padding: 1.5rem 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    max-width: 800px;
+}
+
+/* Listas de información */
+section h3 {
+    margin-top: 1rem;
+    color: #2f3d4a;
+    font-weight: 700;
+    border-bottom: 2px solid #4068c7;
+    padding-bottom: 0.25rem;
+}
+
+ul {
+    list-style: none;
+    padding-left: 0;
+    margin: 0.5rem 0 1.5rem 0;
+}
+
+ul li {
+    font-size: 1rem;
+    padding: 0.25rem 0;
+    color: #333;
+}
+
+/* Pre para JSON formateado */
+pre {
+    background-color: #f7f9fc;
+    padding: 1rem;
+    border-radius: 8px;
+    overflow-x: auto;
+    font-family: monospace;
+    color: #444;
+    max-height: 300px;
+    margin-bottom: 1.5rem;
+}
