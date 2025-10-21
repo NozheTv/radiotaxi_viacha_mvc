@@ -20,7 +20,7 @@ if ($count > 0) {
 
 // Crear administrador inicial
 $usuarioModel->nombre = "Jesus Escobar";
-$usuarioModel->email = "jescoar@radiotaxi.com";
+$usuarioModel->email = "jescobar@radiotaxi.com";
 $usuarioModel->password = "root"; // Cambiar por contraseña segura
 $usuarioModel->rol = "admin";
 

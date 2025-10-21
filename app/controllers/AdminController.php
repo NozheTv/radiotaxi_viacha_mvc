@@ -1,8 +1,6 @@
 <?php
-require_once APP_ROOT . 'models/Usuario.php';
-require_once APP_ROOT . 'config/database.php';
-
-
+require_once APP_ROOT . '/models/Usuario.php';
+require_once APP_ROOT . '/config/database.php';
 
 class AdminController {
     private $db;
@@ -18,8 +16,12 @@ class AdminController {
     public function index() {
         $stmt = $this->usuarioModel->readAll();
         $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        // Aquí incluirías la vista para mostrar usuarios
         return $usuarios;
+    }
+
+    public function dashboard() {
+        // Incluir la vista del dashboard administrador
+        require_once APP_ROOT . '/views/admin/dashboard.php';
     }
 
     // Mostrar usuario por ID

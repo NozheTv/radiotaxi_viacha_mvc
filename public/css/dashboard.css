@@ -1,0 +1,89 @@
+/* Reset y base */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #f4f7fa;
+    color: #333;
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+/* Header */
+.dashboard-header {
+    background-color: #2f3d4a;
+    color: #fff;
+    padding: 1rem 2rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+/* Footer */
+.dashboard-footer {
+    background-color: #2f3d4a;
+    color: #bbb;
+    padding: 1rem 2rem;
+    text-align: center;
+    margin-top: auto;
+}
+
+/* Barra lateral */
+.dashboard-nav {
+    background-color: #1a252f;
+    width: 220px;
+    min-height: calc(100vh - 80px);
+    padding-top: 2rem;
+    position: fixed;
+    top: 80px;
+    left: 0;
+}
+
+.dashboard-nav ul {
+    list-style: none;
+}
+
+.dashboard-nav li {
+    margin: 1.5rem 0;
+}
+
+.dashboard-nav a {
+    color: #ccc;
+    text-decoration: none;
+    display: block;
+    padding: 0.5rem 2rem;
+    transition: background-color 0.3s ease;
+}
+
+.dashboard-nav a:hover,
+.dashboard-nav a:focus {
+    background-color: #4068c7;
+    color: #fff;
+}
+
+/* Contenido principal */
+.dashboard-main {
+    margin-left: 220px;
+    padding: 2rem;
+    flex-grow: 1;
+}
+
+/* Titulos */
+h1, h2 {
+    font-weight: 700;
+}
+
+.dashboard-main h2 {
+    margin-bottom: 1rem;
+}
+
+/* Secciones resumen */
+.dashboard-sections {
+    background: #fff;
+    border-radius: 8px;
+    padding: 1rem 2rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}

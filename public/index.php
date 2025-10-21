@@ -1,36 +1,57 @@
 <?php
-// Definiciones de rutas absolutas para todo el proyecto
-define('APP_ROOT', dirname(__DIR__));               // Ruta raíz del proyecto
-define('PUBLIC_ROOT', __DIR__);                      // Carpeta public
-define('BASE_URL', '/radiotaxi_viacha_mvc/public/'); // URL base para links
+require_once dirname(__DIR__) . '/app/config/config.php';
 
-// Autocarga y configuración
-require_once APP_ROOT . '/config/config.php';
+// Activar errores para debug (puedes desactivar en producción)
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
-// Parsear URL para enrutar
+// Variables para debug, inicialmente sin error
+$debugErrors = [];
+
+// Parsear URL amigable
 $url = isset($_GET['url']) ? rtrim($_GET['url'], '/') : '';
 $url = filter_var($url, FILTER_SANITIZE_URL);
 $segments = explode('/', $url);
 
-// Controlador, método y posibles parámetros
-$controllerName = !empty($segments[0]) ? ucfirst($segments[0]) . 'Controller' : 'HomeController';
+// Determinar controlador, método y parámetros
+$controllerName = !empty($segments[0]) ? ucfirst($segments[0]) . 'Controller' : 'AuthController';
 $method = $segments[1] ?? 'index';
 $params = array_slice($segments, 2);
 
-$controllerFile = APP_ROOT . "/app/controllers/$controllerName.php";
+// Ruta completa al archivo controlador
+$controllerFile = APP_ROOT . "/controllers/$controllerName.php";
 
-if (file_exists($controllerFile)) {
+// Comprobar archivo controlador
+if (!file_exists($controllerFile)) {
+    $debugErrors[] = "Archivo controlador '$controllerFile' no encontrado.";
+} else {
     require_once $controllerFile;
-    if (class_exists($controllerName)) {
+
+    if (!class_exists($controllerName)) {
+        $debugErrors[] = "Clase '$controllerName' no definida en '$controllerFile'.";
+    } else {
         $controller = new $controllerName;
-        if (method_exists($controller, $method)) {
-            call_user_func_array([$controller, $method], $params);
+
+        if (!method_exists($controller, $method)) {
+            $debugErrors[] = "Método '$method' no encontrado en '$controllerName'.";
         } else {
-            http_response_code(404);
-            echo "Error 404: Método '$method' no encontrado.";
+            // No hay error, ejecutar método normalmente
+            call_user_func_array([$controller, $method], $params);
         }
     }
-} else {
-    http_response_code(404);
-    echo "Error 404: Controlador '$controllerName' no encontrado.";
+}
+
+// Mostrar debug solo si hay errores
+if (!empty($debugErrors)) {
+    echo "<h2>Debug MVC Router</h2>";
+    echo "<p>Ruta solicitada: " . htmlspecialchars($_SERVER['REQUEST_URI']) . "</p>";
+    echo "<p>Controlador solicitado: <strong>$controllerName</strong></p>";
+    echo "<p>Método solicitado: <strong>$method</strong></p>";
+    echo "<p>Parámetros: <strong>" . json_encode($params) . "</strong></p>";
+    echo "<h3>Errores encontrados:</h3><ul>";
+    foreach ($debugErrors as $error) {
+        echo "<li>" . htmlspecialchars($error) . "</li>";
+    }
+    echo "</ul>";
 }
