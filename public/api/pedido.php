@@ -54,6 +54,8 @@ function puntoEnGeocerca($lat, $lon, $poligonoGeojson): bool {
         return false;
     }
 
+    // Algoritmo de ray casting,
+
     $inside = false;
     $j = count($coords) - 1;
 
@@ -86,7 +88,7 @@ foreach ($geocercas as $geocerca) {
 
 // Si no está en ninguna geocerca, tarifa mínima
 if ($tarifaBase === null) {
-    $tarifaBase = 10.00;
+    $tarifaBase = 6.00;
 }
 
 // Verificar si el destino está dentro de alguna geocerca
