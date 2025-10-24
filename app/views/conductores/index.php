@@ -20,9 +20,9 @@ require_once APP_ROOT . '/views/partials/sidebar.php';
             <tbody>
                 <?php foreach ($conductores as $conductor): ?>
                 <tr>
-                    <td><?php echo htmlspecialchars($conductor['nombre']); ?></td>
-                    <td><?php echo htmlspecialchars($conductor['email']); ?></td>
-                    <td><?php echo htmlspecialchars($conductor['telefono']); ?></td>
+                    <td><?php echo htmlspecialchars($conductor['nombre']?? ''); ?></td>
+                    <td><?php echo htmlspecialchars($conductor['email']?? ''); ?></td>
+                    <td><?php echo htmlspecialchars($conductor['telefono']?? ''); ?></td>
                     <td>
                         <a href="<?php echo BASE_URL . 'conductores/edit/' . $conductor['id']; ?>">Editar</a>
                         |

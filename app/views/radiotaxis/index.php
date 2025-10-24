@@ -23,9 +23,9 @@ require_once APP_ROOT . '/views/partials/sidebar.php';
         <tbody>
             <?php foreach ($radiotaxis as $taxi): ?>
             <tr>
-                <td><?= htmlspecialchars($taxi['placa']) ?></td>
-                <td><?= htmlspecialchars($taxi['modelo']) ?></td>
-                <td><?= htmlspecialchars($taxi['estado_descripcion']) ?></td>
+                <td><?= htmlspecialchars($taxi['placa']?? '') ?></td>
+                <td><?= htmlspecialchars($taxi['modelo']?? '') ?></td>
+                <td><?= htmlspecialchars($taxi['estado_descripcion']?? '') ?></td>
                 <td><?= htmlspecialchars($taxi['conductor_nombre'] ?? 'Sin asignar') ?></td>
                 <td><?= htmlspecialchars($taxi['gps_latitud'] ?? '-') ?></td>
                 <td><?= htmlspecialchars($taxi['gps_longitud'] ?? '-') ?></td>

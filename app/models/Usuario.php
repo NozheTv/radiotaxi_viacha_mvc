@@ -36,16 +36,52 @@ class Usuario {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function createCliente($data) {
-        $query = "INSERT INTO usuarios (nombre, email, telefono, rol, password, estado) VALUES (:nombre, :email, :telefono, 'cliente', :password, 'activo')";
-        $stmt = $this->conn->prepare($query);
-        $hashedPassword = password_hash($data['password'], PASSWORD_DEFAULT);
-        $stmt->bindParam(':nombre', $data['nombre']);
-        $stmt->bindParam(':email', $data['email']);
-        $stmt->bindParam(':telefono', $data['telefono']);
-        $stmt->bindParam(':password', $hashedPassword);
-        $stmt->execute();
+    public function createCliente($data)
+    {
+        try {
+            // 1️⃣ Verificar si el correo ya existe
+            $checkQuery = "SELECT COUNT(*) FROM usuarios WHERE email = :email";
+            $checkStmt = $this->conn->prepare($checkQuery);
+            $checkStmt->bindParam(':email', $data['email']);
+            $checkStmt->execute();
+
+            if ($checkStmt->fetchColumn() > 0) {
+                // Si el correo ya está registrado, lanzamos una excepción personalizada
+                throw new Exception("El correo ya está registrado. Por favor usa otro correo electrónico.");
+            }
+
+            // 2️⃣ Insertar nuevo cliente si el correo no existe
+            $query = "INSERT INTO usuarios (nombre, email, telefono, rol, password, estado)
+                    VALUES (:nombre, :email, :telefono, 'cliente', :password, 'activo')";
+            $stmt = $this->conn->prepare($query);
+
+            // Encriptar la contraseña
+            $hashedPassword = password_hash($data['password'], PASSWORD_DEFAULT);
+
+            // Vincular los parámetros
+            $stmt->bindParam(':nombre', $data['nombre']);
+            $stmt->bindParam(':email', $data['email']);
+            $stmt->bindParam(':telefono', $data['telefono']);
+            $stmt->bindParam(':password', $hashedPassword);
+
+            // Ejecutar
+            $stmt->execute();
+
+            return true; // opcional: puedes usarlo para verificar si se insertó correctamente
+
+        } catch (PDOException $e) {
+            // 3️⃣ Manejar error PDO (como duplicado o problema de conexión)
+            if ($e->getCode() == 23000) {
+                throw new Exception("Error: El correo ya está registrado en el sistema.");
+            } else {
+                throw new Exception("Error en la base de datos: " . $e->getMessage());
+            }
+        } catch (Exception $e) {
+            // 4️⃣ Capturar y propagar cualquier otra excepción
+            throw $e;
+        }
     }
+
 
     public function updateCliente($id, $data) {
         $query = "UPDATE usuarios SET nombre = :nombre, email = :email, telefono = :telefono WHERE id = :id AND rol = 'cliente'";
@@ -83,15 +119,34 @@ class Usuario {
 
     // Crear conductor nuevo
     public function createConductor($data) {
-        $query = "INSERT INTO usuarios (nombre, email, telefono, rol, password, estado) VALUES (:nombre, :email, :telefono, 'conductor', :password, 'activo')";
+        // 1. Verificar si el correo ya existe
+        $queryCheck = "SELECT COUNT(*) FROM usuarios WHERE email = :email";
+        $stmtCheck = $this->conn->prepare($queryCheck);
+        $stmtCheck->bindParam(':email', $data['email']);
+        $stmtCheck->execute();
+        $count = $stmtCheck->fetchColumn();
+
+        if ($count > 0) {
+            // Lanza una excepción si ya existe
+            throw new Exception("El correo ya está registrado. Por favor usa otro correo electrónico.");
+        }
+
+        // 2. Insertar el conductor si el correo no existe
+        $query = "INSERT INTO usuarios (nombre, email, telefono, rol, password, estado) 
+                VALUES (:nombre, :email, :telefono, 'conductor', :password, 'activo')";
         $stmt = $this->conn->prepare($query);
+
+        // Encriptar la contraseña
         $hashedPassword = password_hash($data['password'], PASSWORD_DEFAULT);
+
         $stmt->bindParam(':nombre', $data['nombre']);
         $stmt->bindParam(':email', $data['email']);
         $stmt->bindParam(':telefono', $data['telefono']);
         $stmt->bindParam(':password', $hashedPassword);
+
         $stmt->execute();
     }
+
 
     // Actualizar conductor
     public function updateConductor($id, $data) {

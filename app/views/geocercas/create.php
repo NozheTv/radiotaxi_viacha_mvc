@@ -20,10 +20,18 @@ require_once APP_ROOT . '/views/partials/sidebar.php';
     <h2>Nueva Geocerca</h2>
     <form action="<?php echo BASE_URL; ?>geocercas/store" method="post" id="geocercaForm">
         <label for="nombre_zona">Nombre de la Zona</label>
-        <input type="text" id="nombre_zona" name="nombre_zona" required />
+        <input type="text" id="nombre_zona" name="nombre_zona" required maxlength="10" minlength="4" />
 
         <label for="tarifa_fija">Tarifa Fija</label>
-        <input type="number" id="tarifa_fija" name="tarifa_fija" step="0.01" min="0" required />
+        <input 
+            type="number" 
+            id="tarifa_fija" 
+            name="tarifa_fija" 
+            step="0.01" 
+            min="100" 
+            max="999" 
+            required 
+        />
 
         <label>Definir Polígono Geográfico</label>
         <div id="map" style="width: 100%; height: 400px; border-radius: 8px;"></div>

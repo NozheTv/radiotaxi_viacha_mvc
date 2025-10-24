@@ -20,9 +20,9 @@ require_once APP_ROOT . '/views/partials/sidebar.php';
             <tbody>
                 <?php foreach ($clientes as $cliente): ?>
                 <tr>
-                    <td><?php echo htmlspecialchars($cliente['nombre']); ?></td>
-                    <td><?php echo htmlspecialchars($cliente['email']); ?></td>
-                    <td><?php echo htmlspecialchars($cliente['telefono']); ?></td>
+                    <td><?php echo htmlspecialchars($cliente['nombre']?? ''); ?></td>
+                    <td><?php echo htmlspecialchars($cliente['email']?? ''); ?></td>
+                    <td><?php echo htmlspecialchars($cliente['telefono']?? ''); ?></td>
                     <td>
                         <a href="<?php echo BASE_URL . 'clientes/edit/' . $cliente['id']; ?>">Editar</a>
                         |
