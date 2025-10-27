@@ -17,10 +17,13 @@ if (!empty($geojson) && isset($geojson['features'][0]['geometry']['coordinates']
     <h2>Editar Geocerca</h2>
     <form action="<?php echo BASE_URL . 'geocercas/update/' . $geocerca['id']; ?>" method="post" id="geocercaForm">
         <label for="nombre_zona">Nombre de la Zona</label>
-        <input type="text" id="nombre_zona" name="nombre_zona" required value="<?= htmlspecialchars($geocerca['nombre_zona']) ?>" />
+        <input type="text" id="nombre_zona" name="nombre_zona" required maxlength="20" minlength="4"
+               value="<?= htmlspecialchars($geocerca['nombre_zona']) ?>" />
+        <small id="nombreError" style="color: red; display: none;">⚠️ Este nombre ya existe, elija otro.</small>
 
         <label for="tarifa_fija">Tarifa Fija</label>
-        <input type="number" id="tarifa_fija" name="tarifa_fija" step="0.01" min="0" required value="<?= htmlspecialchars($geocerca['tarifa_fija']) ?>" />
+        <input type="number" id="tarifa_fija" name="tarifa_fija" step="0.01" min="7" max="999" required
+               value="<?= htmlspecialchars($geocerca['tarifa_fija']) ?>" />
 
         <label>Editar Polígono Geográfico</label>
         <div id="map" style="width: 100%; height: 400px; border-radius: 8px;"></div>
@@ -41,8 +44,7 @@ const map = new mapboxgl.Map({
     zoom: 10
 });
 
-// Inicia con arreglo vacio para que se dibuje nuevo polígono
-let coordinates = [];
+let coordinates = <?= json_encode($coordinates) ?>;
 
 let geojson = {
     "type": "FeatureCollection",
@@ -68,21 +70,77 @@ map.on('load', () => {
         }
     });
 
+    // Centrar el mapa en el polígono
+    if (coordinates.length > 0) {
+        const bounds = coordinates.reduce((bounds, coord) => bounds.extend(coord),
+            new mapboxgl.LngLatBounds(coordinates[0], coordinates[0]));
+        map.fitBounds(bounds, { padding: 20 });
+    }
+
     map.getCanvas().style.cursor = 'crosshair';
 
+    // Permitir agregar más puntos
     map.on('click', (e) => {
         coordinates.push([e.lngLat.lng, e.lngLat.lat]);
         geojson.features[0].geometry.coordinates = [coordinates.concat([coordinates[0]])];
         map.getSource('polygon').setData(geojson);
     });
 
-    document.getElementById('geocercaForm').addEventListener('submit', (event) => {
-        if (coordinates.length === 0) {
-            alert('Debe definir un polígono en el mapa');
-            event.preventDefault();
+    const form = document.getElementById('geocercaForm');
+    const nombreInput = document.getElementById('nombre_zona');
+    const nombreError = document.getElementById('nombreError');
+    const idActual = <?= (int)$geocerca['id'] ?>;
+
+    // Eliminar espacios al inicio automáticamente
+    nombreInput.addEventListener('input', () => {
+        nombreInput.value = nombreInput.value.replace(/^\s+/, '');
+    });
+
+    // 🔍 Verifica si el nombre ya existe (excepto el mismo ID)
+    async function verificarNombre(nombre) {
+        if (!nombre.trim()) return false;
+        try {
+            const response = await fetch("<?php echo BASE_URL; ?>geocercas/checkName?nombre=" + encodeURIComponent(nombre.trim()) + "&id=" + idActual);
+            const data = await response.json();
+            return data.exists;
+        } catch (error) {
+            console.error("Error al verificar nombre:", error);
+            return false;
+        }
+    }
+
+    // 🧠 Evento de envío del formulario
+    form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        const nombre = nombreInput.value.trim();
+
+        if (nombre === '') {
+            alert('⚠️ El nombre no puede estar vacío ni tener solo espacios.');
+            nombreInput.focus();
             return;
         }
+
+        const nombreExiste = await verificarNombre(nombre);
+
+        if (nombreExiste) {
+            nombreError.style.display = 'block';
+            alert('❌ Ya existe otra geocerca con ese nombre. Elija otro.');
+            nombreInput.focus();
+            return;
+        } else {
+            nombreError.style.display = 'none';
+        }
+
+        if (coordinates.length < 3) {
+            alert('⚠️ Debe definir un polígono con al menos 3 puntos.');
+            return;
+        }
+
         document.getElementById('poligono_geojson').value = JSON.stringify(geojson);
+
+        // ✅ Envío definitivo del formulario solo una vez
+        form.submit();
     });
 });
 </script>

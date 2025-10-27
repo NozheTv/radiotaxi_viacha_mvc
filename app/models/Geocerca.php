@@ -11,6 +11,13 @@ class Geocerca {
     public function __construct($db) {
         $this->conn = $db;
     }
+    public function checkNameExists($nombre) {
+        $query = "SELECT COUNT(*) FROM " . $this->table . " WHERE nombre_zona = :nombre";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':nombre', $nombre);
+        $stmt->execute();
+        return $stmt->fetchColumn() > 0;
+    }
 
     public function getAll() {
         $query = "SELECT * FROM " . $this->table . " ORDER BY created_at DESC";
