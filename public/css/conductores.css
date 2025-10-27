@@ -140,3 +140,11 @@ td a:hover {
     color: #e0a800;
     text-decoration: underline;
 }
+.alert-danger {
+    background-color: #dc3545; /* Rojo */
+    color: #fff; /* Letras blancas */
+    padding: 10px 15px;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    font-weight: bold;
+}

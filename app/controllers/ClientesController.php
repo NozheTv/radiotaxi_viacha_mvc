@@ -82,19 +82,29 @@ class ClientesController {
 
     // Actualizar cliente
     public function update($id) {
-        AuthController::checkAuth();
-        $data = $_POST;
+    AuthController::checkAuth();
+    $data = $_POST;
 
-        try {
-            $this->usuarioModel->updateCliente($id, $data);
-            header('Location: ' . BASE_URL . 'clientes?success=' . urlencode("Cliente actualizado correctamente."));
-            exit;
-        } catch (Exception $e) {
-            $errorMsg = $e->getMessage();
-            header('Location: ' . BASE_URL . 'clientes/edit/' . $id . '?error=' . urlencode($errorMsg));
-            exit;
+    try {
+        // Verificar si el email ya existe en otro cliente
+        $existing = $this->usuarioModel->getByEmail($data['email']);
+        if ($existing && $existing['id'] != $id) {
+            throw new Exception("El correo electrónico ya está registrado.");
         }
+
+        // Actualizar cliente
+        $this->usuarioModel->updateCliente($id, $data);
+
+        header('Location: ' . BASE_URL . 'clientes?success=' . urlencode("Cliente actualizado correctamente."));
+        exit;
+    } catch (Exception $e) {
+        $errorMsg = $e->getMessage();
+        header('Location: ' . BASE_URL . 'clientes/edit/' . $id . '?error=' . urlencode($errorMsg));
+        exit;
     }
+}
+
+
 
     // Eliminar cliente
     public function delete($id) {

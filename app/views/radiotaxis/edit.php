@@ -2,10 +2,22 @@
 require_once APP_ROOT . '/views/partials/header.php';
 require_once APP_ROOT . '/views/partials/sidebar.php';
 ?>
+
 <link rel="stylesheet" href="<?php echo BASE_URL; ?>css/radiotaxis.css" />
 
 <main class="dashboard-main">
     <h2>Editar Radio Taxi</h2>
+        <?php if (isset($_GET['error'])): ?>
+        <div class="alert alert-danger">
+            <?php echo htmlspecialchars(urldecode($_GET['error'])); ?>
+        </div>
+    <?php endif; ?>
+
+    <?php if (isset($_GET['success'])): ?>
+        <div class="alert alert-success">
+            <?php echo htmlspecialchars(urldecode($_GET['success'])); ?>
+        </div>
+    <?php endif; ?>
     <form action="<?php echo BASE_URL . 'radiotaxis/update/' . $radiotaxi['id']; ?>" method="post" >
         <label for="placa">Placa</label>
             <input 
@@ -37,8 +49,15 @@ require_once APP_ROOT . '/views/partials/sidebar.php';
                 <?php foreach ($conductores as $conductor): ?>
                     <option 
                         value="<?= $conductor['id'] ?>" 
-                        <?= ($conductor['id'] == $radiotaxi['id_conductor']) ? 'selected' : '' ?>>
-                        <?= htmlspecialchars($conductor['nombre_completo']) ?>
+                        <?php 
+                            // Selecciona el conductor asignado al taxi
+                            if (isset($_GET['id_conductor']) && $_GET['id_conductor'] == $conductor['id']) {
+                                echo 'selected';
+                            } elseif (isset($radiotaxi['id_conductor']) && $radiotaxi['id_conductor'] == $conductor['id']) {
+                                echo 'selected';
+                            }
+                        ?>>
+                        <?= htmlspecialchars($conductor['nombre']) ?>
                     </option>
                 <?php endforeach; ?>
             </select>

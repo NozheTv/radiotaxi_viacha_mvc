@@ -24,7 +24,7 @@ class AuthController {
         $password = $_POST['password'] ?? '';
 
         if (empty($email) || empty($password)) {
-            $error = "Debe ingresar correo y contraseña.";
+            $errorMessage = "Debe ingresar correo y contraseña.";
             require_once APP_ROOT . '/views/admin/login.php';
             return;
         }
@@ -37,7 +37,7 @@ class AuthController {
             $_SESSION['user_rol'] = $user['rol'];
             redirect('admin/dashboard');
         } else {
-            $error = "Usuario o contraseña incorrectos.";
+            $errorMessage = "Usuario o contraseña incorrectos.";
             require_once APP_ROOT . '/views/admin/login.php';
         }
     }

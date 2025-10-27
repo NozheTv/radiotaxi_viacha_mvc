@@ -126,7 +126,25 @@ button[type="submit"]:hover {
     background: linear-gradient(to right, #218838, #e0a800);
     transform: translateY(-2px);
 }
+.alert-danger {
+    color: #fff;
+    background-color: #e53935;
+    border: 1px solid #c62828;
+    padding: 10px 15px;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
 
+.alert-success {
+    color: #fff;
+    background-color: #43a047;
+    border: 1px solid #2e7d32;
+    padding: 10px 15px;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
 /* ==== ACCIONES DE EDITAR Y ELIMINAR ==== */
 td a {
     color: #28a745;

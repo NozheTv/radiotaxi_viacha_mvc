@@ -17,6 +17,18 @@ class GeocercasController {
         $geocercas = $this->geocercaModel->getAll();
         require_once APP_ROOT . '/views/geocercas/index.php';
     }
+    public function checkName() {
+        $nombre = $_GET['nombre'] ?? '';
+
+        header('Content-Type: application/json');
+        if (empty($nombre)) {
+            echo json_encode(['exists' => false]);
+            return;
+        }
+
+        $stmt = $this->geocercaModel->checkNameExists($nombre);
+        echo json_encode(['exists' => $stmt]);
+    }
 
     public function create() {
         AuthController::checkAuth();
@@ -28,13 +40,28 @@ class GeocercasController {
         AuthController::checkAuth();
 
         $data = $_POST;
+
+        // Verificar si ya existe una geocerca con ese nombre (en el backend)
+        if ($this->geocercaModel->checkNameExists($data['nombre_zona'])) {
+            echo "<script>
+                    alert('❌ Ya existe una geocerca con ese nombre.');
+                    window.history.back();
+                </script>";
+            exit;
+        }
+
+        // Si no existe, la crea normalmente
         if ($this->geocercaModel->create($data)) {
             header('Location: ' . BASE_URL . 'geocercas');
             exit;
         } else {
-            echo "Error al crear geocerca";
+            echo "<script>
+                    alert('⚠️ Error al crear la geocerca.');
+                    window.history.back();
+                </script>";
         }
     }
+
 
     public function edit($id) {
         AuthController::checkAuth();
