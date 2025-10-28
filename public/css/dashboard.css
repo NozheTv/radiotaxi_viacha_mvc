@@ -9,43 +9,42 @@
 body {
     background-color: #f4f7fa;
     color: #333;
-    display: flex;
     min-height: 100vh;
+    display: flex;
     flex-direction: column;
 }
 
-/* Header */
+/* Header fijo en la parte superior */
 .dashboard-header {
-    background-color: #28a745; /* verde sólido */
-    color: #fff;
-    padding: 1rem 2rem;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-}
-
-/* Footer */
-.dashboard-footer {
-    background: linear-gradient(to right, #28a745, #ffc107); /* verde → amarillo */
-    color: #fff;
-    padding: 1rem 2rem;
-    text-align: center;
-    margin-top: auto;
-    font-weight: 600;
-}
-
-/* Barra lateral (sidebar) */
-.dashboard-nav {
-    background: linear-gradient(to bottom, #28a745, #ffffff, #ffc107); /* verde → blanco → amarillo */
-    width: 220px;
-    min-height: calc(100vh - 80px);
-    padding-top: 2rem;
     position: fixed;
-    top: 80px;
+    top: 0; left: 0; right: 0;
+    height: 80px;
+    background-color: #28a745;
+    color: white;
+    display: flex;
+    align-items: center;
+    padding: 0 2rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    z-index: 1000; /* importante para que quede encima */
+}
+
+/* Sidebar fijo a la izquierda, bajo el header */
+.dashboard-nav {
+    position: fixed;
+    top: 80px; /* justo debajo del header */
     left: 0;
-    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    width: 220px;
+    height: calc(100vh - 80px); /* altura visible menos header */
+    background: linear-gradient(to bottom, #28a745, #ffffff, #ffc107);
+    padding-top: 2rem;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+    overflow-y: auto; /* scroll vertical si es necesario */
+    z-index: 900;
 }
 
 .dashboard-nav ul {
     list-style: none;
+    padding-left: 0;
 }
 
 .dashboard-nav li {
@@ -57,22 +56,46 @@ body {
     text-decoration: none;
     display: block;
     padding: 0.5rem 2rem;
-    transition: background-color 0.3s ease, color 0.3s ease;
     font-weight: 500;
+    border-radius: 4px;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .dashboard-nav a:hover,
 .dashboard-nav a:focus {
     background-color: #28a745;
     color: white;
-    border-radius: 4px;
+}
+
+/* Enlace activo */
+.dashboard-nav a.active {
+    background-color: #1e7e34;
+    color: white;
+    font-weight: 700;
+}
+
+.content-wrapper {
+    margin-left: 220px; /* espacio para sidebar */
+    margin-top: 80px;  /* espacio para header */
+    height: calc(100vh - 80px); /* total visible menos header */
+    overflow-y: auto; /* scroll solo en el área de contenido */
+    padding: 2rem;
 }
 
 /* Contenido principal */
 .dashboard-main {
     margin-left: 220px;
     padding: 2rem;
-    flex-grow: 1;
+    margin-top: 80px; /* espacio para el header (igual que sidebar) */
+}
+
+/* Footer fijo en la parte inferior, ancho completo */
+.dashboard-footer {
+    background: linear-gradient(to right, #28a745, #ffc107);
+    color: white;
+    padding: 1rem 2rem;
+    text-align: center;
+    font-weight: 600;
 }
 
 /* Títulos */
@@ -90,4 +113,22 @@ h1, h2 {
     border-radius: 8px;
     padding: 1rem 2rem;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* Pequeños widgets administrativos */
+.admin-widget {
+    margin-bottom: 2rem;
+}
+
+.admin-widget h3 {
+    margin-bottom: 0.5rem;
+}
+
+.admin-widget ul {
+    list-style: none;
+    padding-left: 1rem;
+}
+
+.admin-widget li {
+    margin-bottom: 0.5rem;
 }

@@ -12,27 +12,29 @@ if (!empty($geojson) && isset($geojson['features'][0]['geometry']['coordinates']
 <link href="https://api.mapbox.com/mapbox-gl-js/v3.11.0/mapbox-gl.css" rel="stylesheet" />
 <script src="https://api.mapbox.com/mapbox-gl-js/v3.11.0/mapbox-gl.js"></script>
 <link rel="stylesheet" href="<?php echo BASE_URL; ?>css/geocercas.css" />
+<div class="content-wrapper">
+    <main class="dashboard-main">
+        <h2>Editar Geocerca</h2>
+        <form action="<?php echo BASE_URL . 'geocercas/update/' . $geocerca['id']; ?>" method="post" id="geocercaForm">
+            <label for="nombre_zona">Nombre de la Zona</label>
+            <input type="text" id="nombre_zona" name="nombre_zona" required maxlength="20" minlength="4"
+                value="<?= htmlspecialchars($geocerca['nombre_zona']) ?>" />
+            <small id="nombreError" style="color: red; display: none;">⚠️ Este nombre ya existe, elija otro.</small>
 
-<main class="dashboard-main">
-    <h2>Editar Geocerca</h2>
-    <form action="<?php echo BASE_URL . 'geocercas/update/' . $geocerca['id']; ?>" method="post" id="geocercaForm">
-        <label for="nombre_zona">Nombre de la Zona</label>
-        <input type="text" id="nombre_zona" name="nombre_zona" required maxlength="20" minlength="4"
-               value="<?= htmlspecialchars($geocerca['nombre_zona']) ?>" />
-        <small id="nombreError" style="color: red; display: none;">⚠️ Este nombre ya existe, elija otro.</small>
+            <label for="tarifa_fija">Tarifa Fija</label>
+            <input type="number" id="tarifa_fija" name="tarifa_fija" step="0.01" min="6" max="50" required
+                value="<?= htmlspecialchars($geocerca['tarifa_fija']) ?>" />
 
-        <label for="tarifa_fija">Tarifa Fija</label>
-        <input type="number" id="tarifa_fija" name="tarifa_fija" step="0.01" min="7" max="999" required
-               value="<?= htmlspecialchars($geocerca['tarifa_fija']) ?>" />
+            <label>Editar Polígono Geográfico</label>
+            <div id="map" style="width: 100%; height: 400px; border-radius: 8px;"></div>
 
-        <label>Editar Polígono Geográfico</label>
-        <div id="map" style="width: 100%; height: 400px; border-radius: 8px;"></div>
+            <textarea id="poligono_geojson" name="poligono_geojson" hidden required><?= htmlspecialchars($geocerca['poligono_geojson']) ?></textarea>
 
-        <textarea id="poligono_geojson" name="poligono_geojson" hidden required><?= htmlspecialchars($geocerca['poligono_geojson']) ?></textarea>
-
-        <button type="submit">Actualizar Geocerca</button>
-    </form>
-</main>
+            <button type="submit">Actualizar Geocerca</button>
+            <button type="button" id="btnLimpiar" style="margin-left: 10px;">Limpiar Geocerca</button>
+        </form>
+    </main>
+</div>
 
 <script>
 mapboxgl.accessToken = 'pk.eyJ1Ijoibm96aGUiLCJhIjoiY2x3Z2RjaDhrMDN0ZTJqcW1xdW5hbDcxMCJ9.9GLg27CrxP4E9xbOL-GiIg';
@@ -143,6 +145,27 @@ map.on('load', () => {
         form.submit();
     });
 });
+
+const btnLimpiar = document.getElementById('btnLimpiar');
+
+btnLimpiar.addEventListener('click', () => {
+    // Vaciar coordenadas
+    coordinates = [];
+
+    // Actualizar geojson vacío
+    geojson.features[0].geometry.coordinates = [[]];
+
+    // Actualizar fuente y capa en el mapa para eliminar polígono
+    map.getSource('polygon').setData(geojson);
+
+    // Limpiar campo oculto del formulario
+    document.getElementById('poligono_geojson').value = '';
+
+    // Opcional: reubicar mapa a posición inicial y nivel de zoom
+    map.flyTo({ center: [-68.15, -16.5], zoom: 10 });
+});
+
+
 </script>
 
 <?php require_once APP_ROOT . '/views/partials/footer.php'; ?>
