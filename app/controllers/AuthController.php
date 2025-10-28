@@ -29,8 +29,7 @@ class AuthController {
             return;
         }
 
-        $stmt = $this->usuarioModel->login($email);
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        $user = $this->usuarioModel->login($email);
 
         if ($user && password_verify($password, $user['password'])) {
             $_SESSION['user_id'] = $user['id'];

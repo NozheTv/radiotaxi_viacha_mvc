@@ -118,6 +118,24 @@ button[type="submit"]:hover {
     transform: translateY(-2px);
 }
 
+button#btnLimpiar {
+    background: linear-gradient(to right, #40c776, #66ffab);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+    margin-left: 1rem;  /* Separación del otro botón */
+}
+
+button#btnLimpiar:hover {
+    background: linear-gradient(to right, #2f3d4a, #55e26a);
+    transform: translateY(-2px);
+}
+
+
 /* ==== MAPBOX MAP ==== */
 #map {
     margin-bottom: 1.5rem;
