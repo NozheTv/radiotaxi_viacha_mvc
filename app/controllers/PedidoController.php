@@ -1,14 +1,43 @@
 <?php
 require_once APP_ROOT . '/models/Pedido.php';
+require_once APP_ROOT . '/controllers/AuthController.php';
 
 class PedidoController {
     private $pedidoModel;
-    private $db;
+    private $usuarioModel;
 
-    public function __construct($db) {
-        $this->db = $db;
+    public function __construct() {
+        $database = new Database();
+        $db = $database->getConnection();
         $this->pedidoModel = new Pedido($db);
+        $this->usuarioModel = new Usuario($db);
     }
+
+    public function index() {
+        AuthController::checkAuth();
+
+        $pedidos = $this->pedidoModel->getPedidosColaPorPrioridad();
+        require_once APP_ROOT . '/views/pedido/index.php';
+    }
+
+    public function show($id) {
+        AuthController::checkAuth();
+
+        $pedidos = $this->pedidoModel->getPedidoById($id);
+        $conductores = $this->usuarioModel->getConductores();
+
+        require_once APP_ROOT . '/views/pedido/show.php';
+
+    }
+
+    public function edit($id) {
+        AuthController::checkAuth();
+
+        $pedidos = $this->pedidoModel->getPedidoById($id);
+        require_once APP_ROOT . '/views/pedido/edit.php';
+    }
+
+
 
     // Crear un pedido nuevo
     public function crear($data) {

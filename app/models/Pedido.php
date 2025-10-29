@@ -51,11 +51,19 @@ class Pedido {
     }
 
     public function getPedidoById($id) {
-        $query = "SELECT * FROM {$this->table} WHERE id = ?";
+        $query = "
+            SELECT p.*, c.nombre AS nombre_cliente, e.descripcion AS estado_nombre, t.nombre AS nombre_conductor
+            FROM {$this->table} p
+            LEFT JOIN usuarios c ON p.id_cliente = c.id
+            LEFT JOIN estados_pedido e ON p.id_estado_pedido = e.id
+            LEFT JOIN usuarios t ON p.id_taxi = t.id
+            WHERE p.id = ?
+        ";
         $stmt = $this->conn->prepare($query);
         $stmt->execute([$id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+
 
     public function getPedidosByCliente($id_cliente) {
         $query = "SELECT * FROM {$this->table} WHERE id_cliente = ? ORDER BY fecha_hora_solicitud DESC";
@@ -70,5 +78,24 @@ class Pedido {
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function getPedidosColaPorPrioridad() {
+        $query = "
+            SELECT p.*, 
+                c.nombre AS nombre_cliente, 
+                e.descripcion AS estado_nombre, 
+                t.nombre AS nombre_conductor
+            FROM {$this->table} p
+            LEFT JOIN usuarios c ON p.id_cliente = c.id
+            LEFT JOIN estados_pedido e ON p.id_estado_pedido = e.id
+            LEFT JOIN usuarios t ON p.id_taxi = t.id
+            ORDER BY p.prioridad DESC, p.fecha_hora_solicitud ASC
+        ";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+
 }
 ?>
