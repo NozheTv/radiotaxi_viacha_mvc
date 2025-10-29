@@ -19,6 +19,7 @@ class GeocercasController {
     }
     public function checkName() {
         $nombre = $_GET['nombre'] ?? '';
+        $id = isset($_GET['id']) ? (int)$_GET['id'] : null;
 
         header('Content-Type: application/json');
         if (empty($nombre)) {
@@ -26,7 +27,7 @@ class GeocercasController {
             return;
         }
 
-        $stmt = $this->geocercaModel->checkNameExists($nombre);
+        $stmt = $this->geocercaModel->checkNameExists($nombre, $id);
         echo json_encode(['exists' => $stmt]);
     }
 

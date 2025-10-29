@@ -37,37 +37,30 @@ require_once APP_ROOT . '/views/partials/sidebar.php';
 
             <label for="email">Correo Electrónico:</label>
             <input 
-                type="email" 
+                type="text" 
                 id="email" 
                 name="email" 
                 required 
-                placeholder="conductor@gmail.com" 
-                maxlength="40"
-                pattern="[a-zA-Z0-9._%+-]+@gmail\.com$"
-                title="El email debe ser de Gmail y terminar en .com"
-                value="<?php 
-                    echo isset($_GET['email']) 
-                        ? htmlspecialchars($_GET['email']) 
-                        : htmlspecialchars($conductor['email'] ?? ''); 
-                ?>" 
+                placeholder="ejemplo@gmail.com" 
+                minlength="6" 
+                maxlength="40" 
+                title="Debe tener al menos 3 caracteres antes de @, 3 en el dominio y 2 o más en la extensión (ej: nombre@univalle.edu)"
+                value="<?php echo htmlspecialchars($conductor['email'] ?? ''); ?>"
+                oninput="validarEmail(this)"
             />
 
             <label for="telefono">Teléfono:</label>
             <input 
-                type="tel" 
+                type="number" 
                 id="telefono" 
                 name="telefono" 
-                placeholder="Opcional" 
-                maxlength="15" 
-                minlength="8"
-                pattern="^\d{0,15}$" 
-                inputmode="numeric"
-                title="Solo números, mínimo 8 y máximo 15 dígitos"
-                value="<?php 
-                    echo isset($_GET['telefono']) 
-                        ? htmlspecialchars($_GET['telefono']) 
-                        : htmlspecialchars($conductor['telefono'] ?? ''); 
-                ?>" 
+                placeholder="Opcional"
+                min="60000000" 
+                max="99999999"
+                inputmode="numeric" 
+                title="Debe tener exactamente 8 dígitos y comenzar con 6, 7, 8 o 9"
+                value="<?php echo htmlspecialchars($conductor['telefono'] ?? ''); ?>"
+                oninput="validarTelefono(this)"
             />
 
             <button type="submit">Actualizar Conductor</button>
@@ -82,12 +75,38 @@ require_once APP_ROOT . '/views/partials/sidebar.php';
 const emailInput = document.getElementById('email');
 const nombreInput = document.getElementById('nombre');
 const form = document.getElementById('conductorForm');
+function validarEmail(input) {
+    const valor = input.value.trim();
+    // Explicación del regex:
+    // ^ => inicio
+    // [a-zA-Z0-9._%+-]{3,} => mínimo 3 caracteres antes de @
+    // @ => símbolo obligatorio
+    // [a-zA-Z0-9.-]{3,} => mínimo 3 caracteres en el dominio
+    // \. => punto obligatorio
+    // [a-zA-Z]{2,} => mínimo 2 caracteres en la extensión
+    // $ => fin
+    const regex = /^[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]{3,}\.[a-zA-Z]{3,}$/;
 
+    if (!regex.test(valor)) {
+        input.setCustomValidity('Correo no válido. Ejemplo: nombre@univalle.edu');
+        input.reportValidity();
+    } else {
+        input.setCustomValidity('');
+    }
+}
 // Evita escribir espacios en correo
 emailInput.addEventListener('keydown', e => {
     if (e.key === ' ') e.preventDefault();
 });
-
+function validarTelefono(input) {
+    // Elimina caracteres no numéricos (por seguridad)
+    input.value = input.value.replace(/\D/g, '');
+    
+    // Limita a 8 dígitos
+    if (input.value.length > 8) {
+        input.value = input.value.slice(0, 8);
+    }
+}
 // Evita pegar texto con espacios en correo
 emailInput.addEventListener('paste', e => {
     const paste = (e.clipboardData || window.clipboardData).getData('text');
