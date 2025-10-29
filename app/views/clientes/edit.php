@@ -30,14 +30,32 @@ require_once APP_ROOT . '/views/partials/sidebar.php';
                    value="<?php echo isset($_GET['nombre']) ? htmlspecialchars($_GET['nombre']) : htmlspecialchars($cliente['nombre']); ?>" />
 
             <label for="email">Correo Electrónico:</label>
-            <input type="email" id="email" name="email" required placeholder="cliente@correo.com" maxlength="40"
-                   value="<?php echo isset($_GET['email']) ? htmlspecialchars($_GET['email']) : htmlspecialchars($cliente['email']); ?>" />
+            <input 
+                type="text" 
+                id="email" 
+                name="email" 
+                required 
+                placeholder="ejemplo@gmail.com" 
+                minlength="6" 
+                maxlength="40" 
+                title="Debe tener al menos 3 caracteres antes de @, 3 en el dominio y 2 o más en la extensión (ej: nombre@univalle.edu)"
+                value="<?php echo htmlspecialchars($cliente['email']); ?>" 
+                oninput="validarEmail(this)"
+            />
 
             <label for="telefono">Teléfono:</label>
-            <input type="tel" id="telefono" name="telefono" placeholder="Opcional" maxlength="15" minlength="8" 
-                   pattern="\d{0,15}" inputmode="numeric" 
-                   title="Solo números, máximo 15 dígitos"
-                   value="<?php echo isset($_GET['telefono']) ? htmlspecialchars($_GET['telefono']) : htmlspecialchars($cliente['telefono']); ?>" />
+            <input 
+                type="number" 
+                id="telefono" 
+                name="telefono" 
+                placeholder="Opcional"
+                min="60000000" 
+                max="99999999"
+                inputmode="numeric" 
+                title="Debe tener exactamente 8 dígitos y comenzar con 6, 7, 8 o 9"
+                value="<?php echo htmlspecialchars($cliente['telefono']); ?>" 
+                oninput="validarTelefono(this)"
+            />
 
             <button type="submit">Actualizar Cliente</button>
         </fieldset>
@@ -60,6 +78,34 @@ document.getElementById('form-cliente').addEventListener('submit', function(e) {
         emailInput.focus();
     }
 });
+function validarEmail(input) {
+    const valor = input.value.trim();
+    // Explicación del regex:
+    // ^ => inicio
+    // [a-zA-Z0-9._%+-]{3,} => mínimo 3 caracteres antes de @
+    // @ => símbolo obligatorio
+    // [a-zA-Z0-9.-]{3,} => mínimo 3 caracteres en el dominio
+    // \. => punto obligatorio
+    // [a-zA-Z]{2,} => mínimo 2 caracteres en la extensión
+    // $ => fin
+    const regex = /^[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]{3,}\.[a-zA-Z]{3,}$/;
+
+    if (!regex.test(valor)) {
+        input.setCustomValidity('Correo no válido. Ejemplo: nombre@univalle.edu');
+        input.reportValidity();
+    } else {
+        input.setCustomValidity('');
+    }
+}
+function validarTelefono(input) {
+    // Elimina caracteres no numéricos (por seguridad)
+    input.value = input.value.replace(/\D/g, '');
+    
+    // Limita a 8 dígitos
+    if (input.value.length > 8) {
+        input.value = input.value.slice(0, 8);
+    }
+}
 </script>
 
 <?php require_once APP_ROOT . '/views/partials/footer.php'; ?>

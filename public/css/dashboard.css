@@ -5,13 +5,18 @@
     padding: 0;
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
-
+.dashboard-main {
+    flex-grow: 1; /* hace que el contenido principal crezca y empuje el footer */
+    padding: 1rem; /* opcional, para espacio interno */
+}
 body {
     background-color: #f4f7fa;
     color: #333;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    height: 100%;
+    margin: 0;
 }
 
 /* Header fijo en la parte superior */

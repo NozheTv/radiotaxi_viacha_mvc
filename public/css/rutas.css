@@ -1,16 +1,39 @@
-/* ==== TABLA: Historial de Rutas ==== */
+/* ==== ESTILO BASE ==== */
+body {
+    background-color: #f4f7fa;
+    color: #333;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    height: 100%;
+    margin: 0;
+}
+
+.dashboard-main {
+    flex-grow: 1;
+    padding: 1rem;
+}
+
+/* ==== TITULOS PRINCIPALES ==== */
+.dashboard-main h2 {
+    margin-bottom: 1.5rem;
+    color: #28a745;
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+/* ==== TABLA DE HISTORIAL ==== */
 table {
     width: 100%;
     border-collapse: collapse;
-    background-color: #fff;
+    background: #fff;
+    margin-top: 1rem;
     border-radius: 8px;
     overflow: hidden;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
-    margin-top: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    font-size: 0.95rem;
 }
 
 thead {
-    background-color: #40c766;
+    background: linear-gradient(to right, #28a745, #ffc107);
     color: #fff;
 }
 
@@ -22,75 +45,91 @@ thead th {
 
 tbody td {
     padding: 0.75rem 1rem;
-    border-bottom: 1px solid #e5e5e5;
-    color: #333;
-    vertical-align: middle;
+    border-bottom: 1px solid #eee;
 }
 
 tbody tr:hover {
-    background-color: #f0f4ff;
+    background-color: #f8fff8;
+    transition: background 0.3s ease;
 }
 
-/* ==== ENLACES: Ver Detalle ==== */
-a {
-    color: #40c749;
-    text-decoration: none;
+/* ==== ENLACES DE DETALLE ==== */
+td a {
+    color: #28a745;
     font-weight: 600;
-    transition: color 0.2s ease;
+    text-decoration: none;
+    transition: color 0.3s ease, transform 0.2s ease;
 }
 
-a:hover {
+td a:hover {
+    color: #e0a800;
     text-decoration: underline;
-    color: #2f3d4a;
 }
 
-/* ==== SECCIÓN DE DETALLE DE VIAJE ==== */
-main.dashboard-main section {
-    background-color: #fff;
-    padding: 2rem;
+/* ==== ALERTAS (ÉXITO O ERROR) ==== */
+.alert-danger {
+    color: #fff;
+    background-color: #e53935;
+    border: 1px solid #c62828;
+    padding: 10px 15px;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+.alert-success {
+    color: #fff;
+    background-color: #43a047;
+    border: 1px solid #2e7d32;
+    padding: 10px 15px;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+/* ==== SECCIÓN ==== */
+section {
+    background: #fff;
+    padding: 1.5rem;
     border-radius: 10px;
-    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
-    max-width: 800px;
-    margin-bottom: 2rem;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
 }
 
-/* ==== TÍTULOS DE SUBSECCIÓN ==== */
-section h3 {
-    margin-top: 1.5rem;
-    margin-bottom: 0.5rem;
-    color: #2f3d4a;
-    font-size: 1.25rem;
-    font-weight: 700;
-    border-bottom: 2px solid #40c75d;
-    padding-bottom: 0.3rem;
-}
-
-/* ==== LISTAS DE DATOS ==== */
-ul {
-    list-style: none;
-    padding-left: 0;
-    margin: 0.5rem 0 1.5rem 0;
-}
-
-ul li {
-    font-size: 1rem;
-    padding: 0.3rem 0;
-    color: #444;
-    line-height: 1.4;
-}
-
-/* ==== BLOQUE DE JSON (DETALLES RUTA) ==== */
-pre {
-    background-color: #f7f9fc;
-    padding: 1rem;
-    border-radius: 8px;
-    overflow-x: auto;
-    font-family: 'Courier New', Courier, monospace;
-    color: #333;
-    font-size: 0.95rem;
-    max-height: 300px;
-    white-space: pre-wrap;
-    word-break: break-word;
-    margin-bottom: 1.5rem;
-    border: 1px solid #e0e0e0;
+/* ==== RESPONSIVE ==== */
+@media screen and (max-width: 768px) {
+    table, thead, tbody, th, td, tr {
+        display: block;
+        width: 100%;
+    }
+    
+    thead tr {
+        display: none; /* Oculta encabezados en móvil */
+    }
+    
+    tbody tr {
+        margin-bottom: 1rem;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 0.5rem;
+        background: #f9f9f9;
+    }
+    
+    tbody td {
+        display: flex;
+        justify-content: space-between;
+        padding: 0.5rem;
+        border: none;
+        border-bottom: 1px solid #eee;
+    }
+    
+    tbody td::before {
+        content: attr(data-label);
+        font-weight: 600;
+        color: #555;
+        flex-basis: 40%;
+    }
+    
+    tbody td:last-child {
+        border-bottom: none;
+    }
 }

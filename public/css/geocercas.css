@@ -3,6 +3,29 @@ body {
     background-color: #f4f7fa;
     color: #333;
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    height: 100%;
+    margin: 0;
+}
+
+.dashboard-main {
+    flex-grow: 1; /* hace que el contenido principal crezca y empuje el footer */
+    padding: 1rem; /* opcional, para espacio interno */
+}
+.page-wrapper {
+    min-height: 100vh; /* 100% altura del viewport */
+    display: flex;
+    flex-direction: column;
+}
+
+.dashboard-main {
+    flex: 1; /* ocupa el espacio disponible empujando el footer hacia abajo */
+}
+
+.dashboard-footer {
+    background-color: #40c766; /* o el color que uses */
+    color: white;
+    padding: 1rem;
+    text-align: center;
 }
 
 /* ==== TÍTULO PRINCIPAL ==== */

@@ -11,11 +11,20 @@ class Geocerca {
     public function __construct($db) {
         $this->conn = $db;
     }
-    public function checkNameExists($nombre) {
+    public function checkNameExists($nombre, $id = null) {
         $query = "SELECT COUNT(*) FROM " . $this->table . " WHERE nombre_zona = :nombre";
+
+        if ($id) {
+            $query .= " AND id != :id";
+        }
+
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':nombre', $nombre);
+        if ($id) {
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        }
         $stmt->execute();
+
         return $stmt->fetchColumn() > 0;
     }
 

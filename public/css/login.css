@@ -4,7 +4,10 @@
     padding: 0;
     box-sizing: border-box;
 }
-
+.dashboard-main {
+    flex-grow: 1; /* hace que el contenido principal crezca y empuje el footer */
+    padding: 1rem; /* opcional, para espacio interno */
+}
 body, html {
     height: 100%;
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
@@ -12,6 +15,8 @@ body, html {
     display: flex;
     justify-content: center;
     align-items: center;
+    height: 100%;
+    margin: 0;
 }
 
 /* Contenedor del login */

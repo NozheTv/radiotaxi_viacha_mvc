@@ -84,9 +84,30 @@ map.on('load', () => {
     // Permitir agregar más puntos
     map.on('click', (e) => {
         coordinates.push([e.lngLat.lng, e.lngLat.lat]);
-        geojson.features[0].geometry.coordinates = [coordinates.concat([coordinates[0]])];
+
+        // Actualizamos el geojson sin cerrar todavía
+        geojson.features[0].geometry.coordinates = [coordinates];
         map.getSource('polygon').setData(geojson);
+
+        // Actualizamos el textarea en tiempo real
+        if (coordinates.length >= 3) {
+            // Cerramos el polígono solo si hay al menos 3 puntos
+            const closedCoordinates = [...coordinates, coordinates[0]];
+            document.getElementById('poligono_geojson').value = JSON.stringify({
+                type: 'FeatureCollection',
+                features: [{
+                    type: 'Feature',
+                    geometry: {
+                        type: 'Polygon',
+                        coordinates: [closedCoordinates]
+                    }
+                }]
+            });
+        } else {
+            document.getElementById('poligono_geojson').value = '';
+        }
     });
+
 
     const form = document.getElementById('geocercaForm');
     const nombreInput = document.getElementById('nombre_zona');
@@ -117,11 +138,12 @@ map.on('load', () => {
 
         const nombre = nombreInput.value.trim();
 
-        if (nombre === '') {
-            alert('⚠️ El nombre no puede estar vacío ni tener solo espacios.');
+        if (nombre.length < 4) {
+            alert('⚠️ El nombre debe tener al menos 4 caracteres.');
             nombreInput.focus();
             return;
         }
+
 
         const nombreExiste = await verificarNombre(nombre);
 
@@ -139,11 +161,22 @@ map.on('load', () => {
             return;
         }
 
-        document.getElementById('poligono_geojson').value = JSON.stringify(geojson);
+        // Cerramos el polígono al enviar
+        const closedCoordinates = [...coordinates, coordinates[0]];
+        document.getElementById('poligono_geojson').value = JSON.stringify({
+            type: 'FeatureCollection',
+            features: [{
+                type: 'Feature',
+                geometry: {
+                    type: 'Polygon',
+                    coordinates: [closedCoordinates]
+                }
+            }]
+        });
 
-        // ✅ Envío definitivo del formulario solo una vez
         form.submit();
     });
+
 });
 
 const btnLimpiar = document.getElementById('btnLimpiar');

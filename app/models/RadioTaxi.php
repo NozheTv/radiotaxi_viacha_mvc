@@ -102,37 +102,49 @@ class Radiotaxi {
 
 
     public function update($id, $data) {
-    try {
-        // Preparar variables para bindParam
-        $placa = $data['placa'];
-        $modelo = $data['modelo'];
-        $gps_latitud = !empty($data['gps_latitud']) ? $data['gps_latitud'] : null;
-        $gps_longitud = !empty($data['gps_longitud']) ? $data['gps_longitud'] : null;
-        $id_conductor = !empty($data['id_conductor']) ? $data['id_conductor'] : null;
+        try {
+            // 0️⃣ Verificar si otra placa igual ya existe
+            $checkPlacaQuery = "SELECT COUNT(*) FROM {$this->table} WHERE placa = :placa AND id != :id";
+            $stmtCheck = $this->conn->prepare($checkPlacaQuery);
+            $stmtCheck->bindParam(':placa', $data['placa']);
+            $stmtCheck->bindParam(':id', $id);
+            $stmtCheck->execute();
+            if ($stmtCheck->fetchColumn() > 0) {
+                throw new Exception("La placa '{$data['placa']}' ya está registrada en otro taxi.");
+            }
 
-        $query = "UPDATE " . $this->table . " SET 
-            placa = :placa, 
-            modelo = :modelo, 
-            gps_latitud = :gps_latitud, 
-            gps_longitud = :gps_longitud, 
-            id_conductor = :id_conductor 
-            WHERE id = :id";
+            // 1️⃣ Preparar variables
+            $placa = $data['placa'];
+            $modelo = $data['modelo'];
+            $gps_latitud = !empty($data['gps_latitud']) ? $data['gps_latitud'] : null;
+            $gps_longitud = !empty($data['gps_longitud']) ? $data['gps_longitud'] : null;
+            $id_conductor = !empty($data['id_conductor']) ? $data['id_conductor'] : null;
 
-        $stmt = $this->conn->prepare($query);
+            // 2️⃣ Ejecutar UPDATE
+            $query = "UPDATE " . $this->table . " SET 
+                placa = :placa, 
+                modelo = :modelo, 
+                gps_latitud = :gps_latitud, 
+                gps_longitud = :gps_longitud, 
+                id_conductor = :id_conductor 
+                WHERE id = :id";
 
-        $stmt->bindParam(':placa', $placa);
-        $stmt->bindParam(':modelo', $modelo);
-        $stmt->bindParam(':gps_latitud', $gps_latitud);
-        $stmt->bindParam(':gps_longitud', $gps_longitud);
-        $stmt->bindParam(':id_conductor', $id_conductor);
-        $stmt->bindParam(':id', $id);
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(':placa', $placa);
+            $stmt->bindParam(':modelo', $modelo);
+            $stmt->bindParam(':gps_latitud', $gps_latitud);
+            $stmt->bindParam(':gps_longitud', $gps_longitud);
+            $stmt->bindParam(':id_conductor', $id_conductor);
+            $stmt->bindParam(':id', $id);
 
-        return $stmt->execute();
+            return $stmt->execute();
 
-    } catch (PDOException $e) {
-        throw new Exception("Error al actualizar el taxi: " . $e->getMessage());
+        } catch (PDOException $e) {
+            // Solo errores inesperados de SQL
+            throw new Exception("Error al actualizar el taxi: " . $e->getMessage());
+        }
     }
-}
+
 
 
     public function delete($id) {

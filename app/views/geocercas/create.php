@@ -106,11 +106,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
             const nombre = nombreInput.value.trim();
 
-            if (nombre === '') {
-                alert('⚠️ El nombre no puede estar vacío ni tener solo espacios.');
+            if (nombre.length < 4) {
+                alert('⚠️ El nombre debe tener al menos 4 caracteres.');
                 nombreInput.focus();
                 return;
             }
+
 
             const nombreExiste = await verificarNombre(nombre);
 
