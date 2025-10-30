@@ -10,9 +10,8 @@ $db = $database->getConnection();
 $usuarioModel = new Usuario($db);
 
 $method = $_SERVER['REQUEST_METHOD'];
-
-if ($method != 'POST') {
-    http_response_code(405);
+if ($method !== 'POST') {
+    http_response_code(405); // Método no permitido
     echo json_encode(['message' => 'Método no permitido']);
     exit;
 }
@@ -28,8 +27,7 @@ if (empty($data['email']) || empty($data['password'])) {
 $email = $data['email'];
 $password = $data['password'];
 
-$stmt = $usuarioModel->login($email);
-$user = $stmt->fetch(PDO::FETCH_ASSOC);
+$user = $usuarioModel->login($email);
 
 if (!$user || $user['rol'] !== 'cliente' || $user['estado'] !== 'activo') {
     http_response_code(401);
@@ -38,9 +36,7 @@ if (!$user || $user['rol'] !== 'cliente' || $user['estado'] !== 'activo') {
 }
 
 if (password_verify($password, $user['password'])) {
-    // Login exitoso
-    // Aquí puedes agregar generación de token JWT u otro sistema de sesión
-    unset($user['password']); // Remover contraseña para respuesta segura
+    unset($user['password']); // No enviar la contraseña
     http_response_code(200);
     echo json_encode(['message' => 'Login exitoso', 'user' => $user]);
 } else {
