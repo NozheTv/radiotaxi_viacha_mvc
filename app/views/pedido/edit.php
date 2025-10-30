@@ -1,8 +1,9 @@
 <?php require_once APP_ROOT . '/views/partials/header.php'; ?>
 <?php require_once APP_ROOT . '/views/partials/sidebar.php'; ?>
-
+<link rel="stylesheet" href="<?php echo BASE_URL; ?>css/pedidos.css" />
 <main class="dashboard-main">
     <h2>Modificar Estado Pedido #<?= htmlspecialchars($pedidos['id']) ?></h2>
+    <a class="btn btn-primary" href="<?= BASE_URL ?>pedido">Volver a la lista de pedidos</a>
 
     <form action="<?= BASE_URL ?>pedidos/cambiarEstado/<?= $pedidos['id'] ?>" method="POST">
         <label for="estado">Estado:</label>
@@ -13,10 +14,10 @@
             <option value="4" <?= ($pedidos['id_estado_pedido'] == 4) ? 'selected' : '' ?>>Finalizado</option>
             <option value="5" <?= ($pedidos['id_estado_pedido'] == 5) ? 'selected' : '' ?>>Cancelado</option>
         </select>
-        <button type="submit" class="btn btn-primary">Actualizar Estado</button>
+        <button  type="submit" class="btn btn-primary">Actualizar Estado</button>
     </form>
 
-    <p><a href="<?= BASE_URL ?>pedido">Volver a la lista de pedidos</a></p>
+    <p></p>
 </main>
 
 <?php require_once APP_ROOT . '/views/partials/footer.php'; ?>

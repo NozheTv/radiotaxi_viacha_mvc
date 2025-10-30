@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Panel Administrador - RadioTaxi Viacha</title>
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>css/dashboard.css" />
+    
 </head>
 <body>
 <header class="dashboard-header">

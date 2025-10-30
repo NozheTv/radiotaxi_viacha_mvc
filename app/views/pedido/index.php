@@ -29,8 +29,8 @@
                     <td><?= htmlspecialchars($pedido['estado_nombre'] ?? 'Pendiente') ?></td>
                     <td><?= htmlspecialchars($pedido['nombre_conductor'] ?? 'Sin asignar') ?></td>
                     <td>
-                        <a href="<?= BASE_URL . 'pedido/show/' . $pedido['id'] ?>">Ver</a> |
-                        <a href="<?= BASE_URL . 'pedido/edit/' . $pedido['id'] ?>">Modificar Estado</a>
+                        <a class="btn-ver" href="<?= BASE_URL . 'pedido/show/' . $pedido['id'] ?>">Ver</a> |
+                        <a class="btn-editar" href="<?= BASE_URL . 'pedido/edit/' . $pedido['id'] ?>">Modificar Estado</a>
                     </td>
                 </tr>
             <?php endforeach; ?>
