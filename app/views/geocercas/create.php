@@ -6,7 +6,7 @@ require_once APP_ROOT . '/views/partials/sidebar.php';
 <link href="https://api.mapbox.com/mapbox-gl-js/v3.11.0/mapbox-gl.css" rel="stylesheet" />
 <script src="https://api.mapbox.com/mapbox-gl-js/v3.11.0/mapbox-gl.js"></script>
 <link rel="stylesheet" href="<?php echo BASE_URL; ?>css/geocercas.css" />
-
+<center>
 <main class="dashboard-main">
     <h2>Nueva Geocerca</h2>
     <h3>
@@ -30,7 +30,7 @@ El área se guarda internamente como un objeto GeoJSON, que luego se convierte a
         <button type="submit">Guardar Geocerca</button>
     </form>
 </main>
-
+</center>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
 

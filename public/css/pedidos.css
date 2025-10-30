@@ -6,7 +6,36 @@ body {
     color: #333;
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
+.btn-ver,
+.btn-editar {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border-radius: 5px;
+    color: #fff;
+    text-decoration: none;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+/* Botón "Ver" */
+.btn-ver {
+    background: linear-gradient(to right, #40c776, #66ffab);
+}
 
+.btn-ver:hover {
+    background: linear-gradient(to right, #2f3d4a, #55e26a);
+    transform: translateY(-2px);
+}
+
+/* Botón "Modificar Estado" */
+.btn-editar {
+    background: linear-gradient(to right, #559be2, #6cb9ff);
+}
+
+.btn-editar:hover {
+    background: linear-gradient(to right, #2f3d4a, #559be2);
+    transform: translateY(-2px);
+}
 /* ==== TÍTULOS ==== */
 .dashboard-main h2 {
     margin-bottom: 1.5rem;
@@ -27,7 +56,7 @@ table {
 }
 
 thead {
-    background: linear-gradient(to right, #40c776, #66ffa3);
+    background: linear-gradient(to right, #40c776, #e6a927);
     color: #fff;
 }
 
@@ -51,7 +80,7 @@ tbody tr:hover {
     display: inline-block;
     padding: 0.6rem 1.25rem;
     margin-bottom: 1.25rem;
-    background: linear-gradient(to right, #40c781, #66ff8a);
+    background: linear-gradient(to right, #40c781, #03b32c);
     color: #fff;
     border-radius: 5px;
     text-decoration: none;
@@ -62,10 +91,14 @@ tbody tr:hover {
 }
 
 .btn:hover, .btn-primary:hover {
-    background: linear-gradient(to right, #2f3d4a, #559be2);
+    background: linear-gradient(to right, #05631d, #55e278);
     transform: scale(1.03);
 }
-
+.header-container {
+    display: flex;
+    justify-content: space-between; /* pone espacio entre los elementos */
+    align-items: center; /* los alinea en la misma altura */
+}
 /* ==== FORMULARIOS ==== */
 form {
     background: #ffffff;
@@ -75,7 +108,16 @@ form {
     max-width: 600px;
     margin-bottom: 2rem;
 }
+.forms-container {
+    display: flex;
+    gap: 2rem; /* espacio entre formularios */
+    flex-wrap: wrap; /* para que en pantallas pequeñas se apilen */
+    justify-content: start; /* o center, según prefieras */
+}
 
+.forms-container > div {
+    flex: 1 1 300px; /* base mínima 300px, y crece */
+}
 label {
     display: block;
     margin-bottom: 0.4rem;
@@ -90,7 +132,7 @@ select {
     width: 100%;
     padding: 0.65rem;
     margin-bottom: 1.2rem;
-    border: 1px solid #ccc;
+    border: 1px solid #19d819;
     border-radius: 6px;
     font-size: 1rem;
     transition: border-color 0.3s ease, box-shadow 0.2s ease;
@@ -103,7 +145,36 @@ select:focus {
     box-shadow: 0 0 5px rgba(64, 199, 111, 0.3);
     outline: none;
 }
-
+/* Estilos generales para enlaces como botones */
+a.btn-link {
+    display: inline-block;
+    padding: 0.6rem 1.25rem;
+    background: linear-gradient(to right, #40c781, #66ff8a);
+    color: #fff;
+    border-radius: 5px;
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+    transition: background 0.3s ease, transform 0.2s ease;
+    border: none;
+    cursor: pointer;
+}
+.description-box {
+    background: #ffffff;
+    border-radius: 8px;
+    padding: 1.5rem 2rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    border: 2px solid #40c766; /* borde visible en color verde */
+    margin: 1.5rem auto;
+    max-width: 600px;
+    color: #333;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+a.btn-link:hover {
+    background: linear-gradient(to right, #2f3d4a, #559be2);
+    transform: scale(1.03);
+}
 /* ==== BOTONES GUARDAR/ACTUALIZAR ==== */
 button[type="submit"] {
     background: linear-gradient(to right, #40c776, #66ffab);

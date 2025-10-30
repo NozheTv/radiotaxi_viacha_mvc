@@ -18,9 +18,12 @@
 
 
 <main class="dashboard-main">
-    <h2>Detalle Pedido #<?= htmlspecialchars($pedidos['id']) ?></h2>
+    <div class="header-container">
+        <h2>Detalle Pedido #<?= htmlspecialchars($pedidos['id']) ?></h2>
+        <a class="btn btn-primary" href="<?= BASE_URL ?>pedido">Volver a la lista de pedidos</a>
+    </div>
 
-    <div>
+    <div class="description-box">
         <strong>Cliente:</strong> <?= htmlspecialchars($pedidos['nombre_cliente'] ?? 'N/A') ?><br>
         <strong>Tarifa:</strong> <?= number_format($pedidos['tarifa'], 2) ?> Bs.<br>
         <strong>Estado Actual:</strong> <?= htmlspecialchars($pedidos['estado_nombre'] ?? 'Pendiente') ?><br>
@@ -35,34 +38,40 @@
 
     <hr>
 
-    <h3>Asignar Conductor</h3>
-    <form action="<?= BASE_URL ?>pedidos/asignarConductor/<?= $pedidos['id'] ?>" method="POST">
-        <select name="id_conductor" required>
-            <option value="">-- Seleccione un conductor --</option>
-            <?php foreach ($conductores as $conductor): ?>
-                <option value="<?= $conductor['id'] ?>" <?= ($pedidos['id_taxi'] == $conductor['id']) ? 'selected' : '' ?>>
-                    <?= htmlspecialchars($conductor['nombre']) ?>
-                </option>
-            <?php endforeach; ?>
-        </select>
-        <button type="submit" class="btn btn-primary">Asignar</button>
-    </form>
+    <div class="forms-container">
+    <div class="form-asignar">
+        <h3>Asignar Conductor</h3>
+        <form action="<?= BASE_URL ?>pedidos/asignarConductor/<?= $pedidos['id'] ?>" method="POST">
+            <select name="id_conductor" required>
+                <option value="">-- Seleccione un conductor --</option>
+                <?php foreach ($conductores as $conductor): ?>
+                    <option value="<?= $conductor['id'] ?>" <?= ($pedidos['id_taxi'] == $conductor['id']) ? 'selected' : '' ?>>
+                        <?= htmlspecialchars($conductor['nombre']) ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+            <button type="submit" class="btn btn-primary">Asignar</button>
+        </form>
+    </div>
 
-    <hr>
+    <div class="form-estado">
+        <h3>Cambiar Estado</h3>
+        <form action="<?= BASE_URL ?>pedidos/cambiarEstado/<?= $pedidos['id'] ?>" method="POST">
+            <select name="estado" required>
+                <option value="1" <?= ($pedidos['id_estado_pedido'] == 1) ? 'selected' : '' ?>>Pendiente</option>
+                <option value="2" <?= ($pedidos['id_estado_pedido'] == 2) ? 'selected' : '' ?>>Asignado</option>
+                <option value="3" <?= ($pedidos['id_estado_pedido'] == 3) ? 'selected' : '' ?>>En camino</option>
+                <option value="4" <?= ($pedidos['id_estado_pedido'] == 4) ? 'selected' : '' ?>>Finalizado</option>
+                <option value="5" <?= ($pedidos['id_estado_pedido'] == 5) ? 'selected' : '' ?>>Cancelado</option>
+            </select>
+            <button type="submit" class="btn btn-primary">Actualizar Estado</button>
+        </form>
+    </div>
+</div>
 
-    <h3>Cambiar Estado</h3>
-    <form action="<?= BASE_URL ?>pedidos/cambiarEstado/<?= $pedidos['id'] ?>" method="POST">
-        <select name="estado" required>
-            <option value="1" <?= ($pedidos['id_estado_pedido'] == 1) ? 'selected' : '' ?>>Pendiente</option>
-            <option value="2" <?= ($pedidos['id_estado_pedido'] == 2) ? 'selected' : '' ?>>Asignado</option>
-            <option value="3" <?= ($pedidos['id_estado_pedido'] == 3) ? 'selected' : '' ?>>En camino</option>
-            <option value="4" <?= ($pedidos['id_estado_pedido'] == 4) ? 'selected' : '' ?>>Finalizado</option>
-            <option value="5" <?= ($pedidos['id_estado_pedido'] == 5) ? 'selected' : '' ?>>Cancelado</option>
-        </select>
-        <button type="submit" class="btn btn-primary">Actualizar Estado</button>
-    </form>
+<hr>
 
-    <p><a href="<?= BASE_URL ?>pedido">Volver a la lista de pedidos</a></p>
+
 </main>
 
 <?php require_once APP_ROOT . '/views/partials/footer.php'; ?>
