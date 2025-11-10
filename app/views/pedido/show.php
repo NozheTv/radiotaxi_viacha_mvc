@@ -3,6 +3,7 @@
 
 <!-- CSS de Mapbox -->
 <link href='https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css' rel='stylesheet' />
+<link rel="stylesheet" href="<?php echo BASE_URL; ?>css/pedidos.css" />
 
 <style>
     #map {
@@ -13,22 +14,20 @@
         margin-bottom: 1.5rem;
     }
 </style>
-<link rel="stylesheet" href="<?php echo BASE_URL; ?>css/pedidos.css" />
-
-
 
 <main class="dashboard-main">
     <div class="header-container">
-        <h2>Detalle Pedido #<?= htmlspecialchars($pedidos['id']) ?></h2>
+        <h2>Detalle Pedido #<?= htmlspecialchars($pedido['id']) ?></h2>
         <a class="btn btn-primary" href="<?= BASE_URL ?>pedido">Volver a la lista de pedidos</a>
     </div>
 
     <div class="description-box">
-        <strong>Cliente:</strong> <?= htmlspecialchars($pedidos['nombre_cliente'] ?? 'N/A') ?><br>
-        <strong>Tarifa:</strong> <?= number_format($pedidos['tarifa'], 2) ?> Bs.<br>
-        <strong>Estado Actual:</strong> <?= htmlspecialchars($pedidos['estado_nombre'] ?? 'Pendiente') ?><br>
-        <strong>Conductor Asignado:</strong> <?= htmlspecialchars($pedidos['nombre_conductor'] ?? 'Sin asignar') ?><br>
-        <strong>Fecha Solicitud:</strong> <?= htmlspecialchars($pedidos['fecha_hora_solicitud']) ?><br>
+        <strong>Cliente:</strong> <?= htmlspecialchars($pedido['nombre_cliente'] ?? 'N/A') ?><br>
+        <strong>Tarifa:</strong> <?= number_format($pedido['tarifa'], 2) ?> Bs.<br>
+        <strong>Prioridad:</strong> <?= ($pedido['prioridad'] == 1) ? 'Alta' : 'Normal' ?><br>
+        <strong>Estado Actual:</strong> <?= htmlspecialchars($pedido['estado_nombre'] ?? 'Pendiente') ?><br>
+        <strong>Conductor Asignado:</strong> <?= htmlspecialchars($pedido['nombre_conductor'] ?? 'Sin asignar') ?><br>
+        <strong>Fecha Solicitud:</strong> <?= htmlspecialchars($pedido['fecha_hora_solicitud']) ?><br>
     </div>
 
     <hr>
@@ -39,38 +38,37 @@
     <hr>
 
     <div class="forms-container">
-    <div class="form-asignar">
-        <h3>Asignar Conductor</h3>
-        <form action="<?= BASE_URL ?>pedidos/asignarConductor/<?= $pedidos['id'] ?>" method="POST">
-            <select name="id_conductor" required>
-                <option value="">-- Seleccione un conductor --</option>
-                <?php foreach ($conductores as $conductor): ?>
-                    <option value="<?= $conductor['id'] ?>" <?= ($pedidos['id_taxi'] == $conductor['id']) ? 'selected' : '' ?>>
-                        <?= htmlspecialchars($conductor['nombre']) ?>
-                    </option>
-                <?php endforeach; ?>
-            </select>
-            <button type="submit" class="btn btn-primary">Asignar</button>
-        </form>
-    </div>
+        <div class="form-asignar">
+            <h3>Asignar Conductor</h3>
+            <form action="<?= BASE_URL ?>pedido/aceptarPedido/<?= $pedido['id'] ?>" method="POST">
+                <select name="id_taxi" required>
+                    <option value="">-- Seleccione un conductor --</option>
+                    <?php foreach ($conductores as $conductor): ?>
+                        <option value="<?= $conductor['id'] ?>" <?= ($pedido['id_taxi'] == $conductor['id']) ? 'selected' : '' ?>>
+                            <?= htmlspecialchars($conductor['nombre']) ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+                <button type="submit" class="btn btn-primary">Asignar</button>
+            </form>
+        </div>
 
-    <div class="form-estado">
-        <h3>Cambiar Estado</h3>
-        <form action="<?= BASE_URL ?>pedidos/cambiarEstado/<?= $pedidos['id'] ?>" method="POST">
-            <select name="estado" required>
-                <option value="1" <?= ($pedidos['id_estado_pedido'] == 1) ? 'selected' : '' ?>>Pendiente</option>
-                <option value="2" <?= ($pedidos['id_estado_pedido'] == 2) ? 'selected' : '' ?>>Asignado</option>
-                <option value="3" <?= ($pedidos['id_estado_pedido'] == 3) ? 'selected' : '' ?>>En camino</option>
-                <option value="4" <?= ($pedidos['id_estado_pedido'] == 4) ? 'selected' : '' ?>>Finalizado</option>
-                <option value="5" <?= ($pedidos['id_estado_pedido'] == 5) ? 'selected' : '' ?>>Cancelado</option>
-            </select>
-            <button type="submit" class="btn btn-primary">Actualizar Estado</button>
-        </form>
-    </div>
-</div>
+        <div class="form-estado">
+            <h3>Cambiar Estado</h3>
+            <form action="<?= BASE_URL ?>pedido/actualizarEstado/<?= $pedido['id'] ?>" method="POST">
+                <select name="estado" required>
+                    <option value="1" <?= ($pedido['id_estado_pedido'] == 1) ? 'selected' : '' ?>>Pendiente</option>
+                    <option value="2" <?= ($pedido['id_estado_pedido'] == 2) ? 'selected' : '' ?>>Asignado</option>
+                    <option value="3" <?= ($pedido['id_estado_pedido'] == 3) ? 'selected' : '' ?>>En camino</option>
+                    <option value="4" <?= ($pedido['id_estado_pedido'] == 4) ? 'selected' : '' ?>>Finalizado</option>
+                    <option value="5" <?= ($pedido['id_estado_pedido'] == 5) ? 'selected' : '' ?>>Cancelado</option>
+                </select>
+                <button type="submit" class="btn btn-primary">Actualizar Estado</button>
+            </form>
+        </div>
+    </div>
 
-<hr>
-
+    <hr>
 
 </main>
 
@@ -83,17 +81,20 @@
     const map = new mapboxgl.Map({
         container: 'map',
         style: 'mapbox://styles/mapbox/streets-v12',
-        center: [(<?= $pedidos['origen_longitud'] ?> + <?= $pedidos['destino_longitud'] ?>) / 2, (<?= $pedidos['origen_latitud'] ?> + <?= $pedidos['destino_latitud'] ?>) / 2],
+        center: [
+            (<?= $pedido['origen_longitud'] ?> + <?= $pedido['destino_longitud'] ?>) / 2,
+            (<?= $pedido['origen_latitud'] ?> + <?= $pedido['destino_latitud'] ?>) / 2
+        ],
         zoom: 12
     });
 
-    // Crear popup para el origen con texto fijo
+    // Crear popup para el origen
     const popupOrigen = new mapboxgl.Popup({ offset: 25 })
         .setHTML("<strong>Punto de partida</strong>");
 
     // Marcador Origen con popup
     new mapboxgl.Marker({color: 'green'})
-        .setLngLat([<?= $pedidos['origen_longitud'] ?>, <?= $pedidos['origen_latitud'] ?>])
+        .setLngLat([<?= $pedido['origen_longitud'] ?>, <?= $pedido['origen_latitud'] ?>])
         .setPopup(popupOrigen)
         .addTo(map);
 
@@ -103,13 +104,13 @@
 
     // Marcador Destino con popup
     new mapboxgl.Marker({color: 'red'})
-        .setLngLat([<?= $pedidos['destino_longitud'] ?>, <?= $pedidos['destino_latitud'] ?>])
+        .setLngLat([<?= $pedido['destino_longitud'] ?>, <?= $pedido['destino_latitud'] ?>])
         .setPopup(popupDestino)
         .addTo(map);
 
     // Ajustar mapa para mostrar ambos puntos
     const bounds = new mapboxgl.LngLatBounds();
-    bounds.extend([<?= $pedidos['origen_longitud'] ?>, <?= $pedidos['origen_latitud'] ?>]);
-    bounds.extend([<?= $pedidos['destino_longitud'] ?>, <?= $pedidos['destino_latitud'] ?>]);
+    bounds.extend([<?= $pedido['origen_longitud'] ?>, <?= $pedido['origen_latitud'] ?>]);
+    bounds.extend([<?= $pedido['destino_longitud'] ?>, <?= $pedido['destino_latitud'] ?>]);
     map.fitBounds(bounds, { padding: 60, maxZoom: 15 });
 </script>

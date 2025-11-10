@@ -96,6 +96,20 @@ class Pedido {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function getPedidos() {
+        $query = "SELECT p.*, 
+                c.nombre AS nombre_cliente, 
+                e.descripcion AS estado_nombre, 
+                t.nombre AS nombre_conductor
+            FROM {$this->table} p
+            LEFT JOIN usuarios c ON p.id_cliente = c.id
+            LEFT JOIN estados_pedido e ON p.id_estado_pedido = e.id
+            LEFT JOIN usuarios t ON p.id_taxi = t.id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 
 }
 ?>
