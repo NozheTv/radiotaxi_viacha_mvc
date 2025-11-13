@@ -169,6 +169,32 @@
             return $stmt->execute();
         }
 
+        public function createUsuarioComplete($data) {
+            // Verificar email duplicado
+            if ($this->getByEmail($data['email'])) {
+                throw new Exception("El correo ya está registrado. Por favor usa otro correo electrónico.");
+            }
+
+            $query = "INSERT INTO " . $this->table . " 
+                (nombre, email, telefono, direccion, plataforma_acceso, rol, password, estado) 
+                VALUES (:nombre, :email, :telefono, :direccion, :plataforma_acceso, :rol, :password, :estado)";
+            $stmt = $this->conn->prepare($query);
+
+            $hashedPassword = password_hash($data['password'], PASSWORD_DEFAULT);
+
+            $stmt->bindParam(':nombre', $data['nombre']);
+            $stmt->bindParam(':email', $data['email']);
+            $stmt->bindParam(':telefono', $data['telefono']);
+            $stmt->bindParam(':direccion', $data['direccion']);
+            $stmt->bindParam(':plataforma_acceso', $data['plataforma_acceso']);
+            $stmt->bindParam(':rol', $data['rol']);
+            $stmt->bindParam(':password', $hashedPassword);
+            $stmt->bindParam(':estado', $data['estado']);
+
+            return $stmt->execute();
+        }
+
+
         private function updateUsuario($id, $data, $rol = null) {
         // Validar que el email no esté registrado en otro usuario diferente
         $queryCheck = "SELECT COUNT(*) FROM " . $this->table . " WHERE email = :email AND id != :id";
