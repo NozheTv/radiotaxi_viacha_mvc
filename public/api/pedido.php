@@ -36,10 +36,8 @@ function puntoEnGeocerca($lat, $lon, $poligonoGeojson): bool {
     $geojson = json_decode($poligonoGeojson, true);
     if (!$geojson) return false;
 
-    // Obtener el array de coordenadas para el polígono
     $coords = null;
 
-    // Dependiendo del tipo GeoJSON:
     if (isset($geojson['type'])) {
         if ($geojson['type'] === 'FeatureCollection' && isset($geojson['features'][0]['geometry']['coordinates'])) {
             $coords = $geojson['features'][0]['geometry']['coordinates'][0];
@@ -54,25 +52,24 @@ function puntoEnGeocerca($lat, $lon, $poligonoGeojson): bool {
         return false;
     }
 
-    // Algoritmo de ray casting,
-
     $inside = false;
     $j = count($coords) - 1;
 
     for ($i = 0; $i < count($coords); $i++) {
-        $xi = $coords[$i][1];
-        $yi = $coords[$i][0];
-        $xj = $coords[$j][1];
-        $yj = $coords[$j][0];
+        $x_i = $coords[$i][0]; // longitud
+        $y_i = $coords[$i][1]; // latitud
+        $x_j = $coords[$j][0];
+        $y_j = $coords[$j][1];
 
-        if ((($yi > $lat) != ($yj > $lat)) &&
-            ($lon < ($xj - $xi) * ($lat - $yi) / ($yj - $yi) + $xi)) {
+        if ((($y_i > $lat) != ($y_j > $lat)) &&
+            ($lon < ($x_j - $x_i) * ($lat - $y_i) / ($y_j - $y_i) + $x_i)) {
             $inside = !$inside;
         }
         $j = $i;
     }
     return $inside;
 }
+
 
 
 // Obtener todas las geocercas
@@ -113,7 +110,7 @@ $pedidoModel->origen_longitud = floatval($data['origen_longitud']);
 $pedidoModel->destino_latitud = floatval($data['destino_latitud']);
 $pedidoModel->destino_longitud = floatval($data['destino_longitud']);
 $pedidoModel->tarifa = $tarifaFinal;
-$pedidoModel->id_estado_pedido = 1; // estado pendiente
+$pedidoModel->id_estado_pedido = 1;
 $pedidoModel->prioridad = boolval($data['prioridad']);
 
 if ($pedidoModel->crearPedido()) {
