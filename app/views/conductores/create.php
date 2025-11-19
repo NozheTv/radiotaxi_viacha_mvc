@@ -53,14 +53,14 @@ require_once APP_ROOT . '/views/partials/sidebar.php';
 
             <label for="telefono">Teléfono:</label>
             <input 
-                type="number" 
+                type="text" 
                 id="telefono" 
                 name="telefono" 
-                placeholder="Opcional"
-                min="60000000" 
-                max="79999999"
-                inputmode="numeric" 
+                required
+                placeholder="Número de teléfono (8 dígitos)" 
+                pattern="^[6-7]\d{7}$"
                 title="Debe tener exactamente 8 dígitos y comenzar con 6 o 7"
+                maxlength="8"
                 value="<?php echo isset($_GET['telefono']) ? htmlspecialchars($_GET['telefono']) : ''; ?>" 
                 oninput="validarTelefono(this)"
             />

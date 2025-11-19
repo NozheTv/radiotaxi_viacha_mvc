@@ -41,13 +41,19 @@ class ConductoresController {
             $errors[] = "El correo electrónico es obligatorio, debe ser válido y no debe exceder 40 caracteres.";
         }
 
-        if (!empty($data['telefono'])) {
-            if (!preg_match('/^\d{1,15}$/', $data['telefono'])) {
-                $errors[] = "El teléfono debe contener solo números y máximo 15 dígitos.";
-            }
+        if (empty($data['telefono'])) {
+            $errors[] = "El teléfono es obligatorio.";
         } else {
-            $data['telefono'] = null;
+            if (!preg_match('/^\d{8}$/', $data['telefono'])) {
+                $errors[] = "El teléfono debe contener exactamente 8 dígitos.";
+            }
         }
+
+        if (empty($data['licencia'])) { 
+            $errors[] = "La licencia es obligatoria para conductores.";
+        }
+
+
 
         if (empty($data['password']) || strlen($data['password']) < 8 || strlen($data['password']) > 15) {
             $errors[] = "La contraseña es obligatoria y debe tener entre 8 y 15 caracteres.";
@@ -70,11 +76,21 @@ class ConductoresController {
 
         // Intentar crear el conductor
         try {
-            $this->usuarioModel->createConductor($data);
+            // Insertar usando método del modelo adaptado a conductor con licencia y teléfono
+            $this->usuarioModel->createUsuarioComplete([
+                'nombre' => $data['nombre'],
+                'email' => $data['email'],
+                'telefono' => $data['telefono'],
+                'direccion' => $data['direccion'] ?? null,
+                'licencia' => $data['licencia'],
+                'plataforma_acceso' => 'app_conductor',
+                'rol' => 'conductor',
+                'password' => $data['password'],
+                'estado' => 'activo'
+            ]);
             header('Location: ' . BASE_URL . 'conductores?success=' . urlencode('Conductor creado exitosamente'));
             exit;
         } catch (Exception $e) {
-            // Pasar mensaje de error y datos para mantener el formulario con valores ingresados
             $query = http_build_query(array_merge(['error' => $e->getMessage()], $data));
             header('Location: ' . BASE_URL . 'conductores/create?' . $query);
             exit;
@@ -99,10 +115,8 @@ class ConductoresController {
     // Actualizar conductor
     public function update($id) {
         AuthController::checkAuth();
-
         $data = $_POST;
 
-        // Validaciones similares a store para mantener consistencia
         $errors = [];
 
         if (empty($data['nombre']) || strlen($data['nombre']) > 40) {
@@ -113,12 +127,17 @@ class ConductoresController {
             $errors[] = "El correo electrónico es obligatorio, debe ser válido y no debe exceder 40 caracteres.";
         }
 
-        if (!empty($data['telefono'])) {
-            if (!preg_match('/^\d{1,15}$/', $data['telefono'])) {
-                $errors[] = "El teléfono debe contener solo números y máximo 15 dígitos.";
-            }
+        if (empty($data['telefono'])) {
+            $errors[] = "El teléfono es obligatorio.";
         } else {
-            $data['telefono'] = null;
+            if (!preg_match('/^\d{8}$/', $data['telefono'])) {
+                $errors[] = "El teléfono debe contener exactamente 8 dígitos.";
+            }
+        }
+        
+        // Validar licencia solo para conductores
+        if (empty($data['licencia'])) {
+            $errors[] = "La licencia es obligatoria para conductores.";
         }
 
         if (!empty($data['password'])) {
@@ -128,13 +147,11 @@ class ConductoresController {
         }
 
         if (!empty($errors)) {
-            // Redirige a edit con errores y datos para rellenar formulario
             $query = http_build_query(array_merge(['error' => implode(' | ', $errors)], $data));
             header('Location: ' . BASE_URL . 'conductores/edit/' . $id . '?' . $query);
             exit;
         }
 
-        // Verificar si el email está registrado en otro usuario distinto (para evitar conflicto)
         $existingUser = $this->usuarioModel->getByEmail($data['email']);
         if ($existingUser && $existingUser['id'] != $id) {
             $query = http_build_query(array_merge(['error' => 'El correo ya está registrado en otro usuario.'], $data));
@@ -142,16 +159,31 @@ class ConductoresController {
             exit;
         }
 
-        // Intentar actualizar el conductor
         try {
-            $this->usuarioModel->updateConductor($id, $data);
+            // Preparar array para actualización
+            $updateData = [
+                'nombre' => $data['nombre'],
+                'email' => $data['email'],
+                'telefono' => $data['telefono'],
+                'direccion' => $data['direccion'] ?? null,
+                'licencia' => $data['licencia'],
+            ];
+            if (!empty($data['password'])) {
+                $updateData['password'] = $data['password'];
+            }
+
+            // Usar método del modelo que actualiza conductor, incluyendo licencia
+            $this->usuarioModel->updateConductor($id, $updateData);
+
             header('Location: ' . BASE_URL . 'conductores?success=' . urlencode('Conductor actualizado correctamente'));
             exit;
         } catch (Exception $e) {
-            header('Location: ' . BASE_URL . 'conductores/edit/' . $id . '?error=' . urlencode($e->getMessage()));
+            $query = http_build_query(['error' => $e->getMessage()]);
+            header('Location: ' . BASE_URL . 'conductores/edit/' . $id . '?' . $query);
             exit;
         }
     }
+
 
     // Eliminar conductor
     public function delete($id) {

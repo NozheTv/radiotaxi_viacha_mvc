@@ -106,6 +106,8 @@ class PedidoController {
         $id_estado = $_POST['estado'] ?? null;
         if ($id_estado && $this->pedidoModel->actualizarEstado($id_pedido, $id_estado)) {
             // Puedes agregar redirección o mensaje aquí
+            header("Location: " . BASE_URL . "pedido");
+            exit();
             return ['success' => true, 'message' => 'Estado actualizado'];
         }
         return ['success' => false, 'message' => 'Error al actualizar estado'];
