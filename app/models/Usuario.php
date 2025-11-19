@@ -65,14 +65,6 @@
             return $this->getByIdAndRol($id, 'conductor');
         }
 
-        public function createConductor($data) {
-            return $this->createUsuario($data, 'conductor');
-        }
-
-        public function updateConductor($id, $data) {
-            return $this->updateUsuario($id, $data, 'conductor');
-        }
-
         public function deleteConductor($id) {
             return $this->deleteUsuario($id, 'conductor');
         }
@@ -242,18 +234,49 @@
 
 
 
-        private function deleteUsuario($id, $rol = null) {
-            $query = "UPDATE " . $this->table . " SET estado='inactivo' WHERE id=:id";
-            if ($rol) {
-                $query .= " AND rol=:rol";
-            }
-
-            $stmt = $this->conn->prepare($query);
-            $stmt->bindParam(':id', $id);
-            if ($rol) {
-                $stmt->bindParam(':rol', $rol);
-            }
-
-            return $stmt->execute();
+    private function deleteUsuario($id, $rol = null) {
+        $query = "UPDATE " . $this->table . " SET estado='inactivo' WHERE id=:id";
+        if ($rol) {
+            $query .= " AND rol=:rol";
         }
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id', $id);
+        if ($rol) {
+            $stmt->bindParam(':rol', $rol);
+        }
+
+        return $stmt->execute();
     }
+
+    public function createConductor($data) {
+        return $this->createUsuarioComplete(array_merge($data, ['rol' => 'conductor']));
+    }
+
+    public function updateConductor($id, $data) {
+        // Validar email duplicado ya en el controlador
+        // Construir query dinámico con licencia y direccion
+        $query = "UPDATE " . $this->table . " SET nombre=:nombre, email=:email, telefono=:telefono, direccion=:direccion, licencia=:licencia";
+
+        if (!empty($data['password'])) {
+            $query .= ", password=:password";
+        }
+        $query .= " WHERE id=:id AND rol='conductor'";
+
+        $stmt = $this->conn->prepare($query);
+
+        $stmt->bindParam(':nombre', $data['nombre']);
+        $stmt->bindParam(':email', $data['email']);
+        $stmt->bindParam(':telefono', $data['telefono']);
+        $stmt->bindParam(':direccion', $data['direccion']);
+        $stmt->bindParam(':licencia', $data['licencia']);
+        $stmt->bindParam(':id', $id);
+
+        if (!empty($data['password'])) {
+            $hashedPassword = password_hash($data['password'], PASSWORD_DEFAULT);
+            $stmt->bindParam(':password', $hashedPassword);
+        }
+
+        return $stmt->execute();
+    }
+}
