@@ -22,7 +22,7 @@ body {
 }
 
 .dashboard-footer {
-    background-color: #40c766; /* o el color que uses */
+    background-color: #174925; /* o el color que uses */
     color: white;
     padding: 1rem;
     text-align: center;
@@ -31,7 +31,7 @@ body {
 /* ==== TÍTULO PRINCIPAL ==== */
 .dashboard-main h2 {
     margin-bottom: 1.5rem;
-    color: #40c766;
+    color: #1f5e31;
     font-size: 1.8rem;
     font-weight: 700;
 }
@@ -48,7 +48,7 @@ table {
 }
 
 thead {
-    background: linear-gradient(to right, #40c776, #66ffa3);
+    background: linear-gradient(to right, #1a5230, #73ff66);
     color: #fff;
 }
 
@@ -72,7 +72,7 @@ tbody tr:hover {
     display: inline-block;
     padding: 0.6rem 1.25rem;
     margin-bottom: 1.25rem;
-    background: linear-gradient(to right, #40c781, #66ff8a);
+    background: linear-gradient(to right, #1a5336, #66ff8a);
     color: #fff;
     border-radius: 5px;
     text-decoration: none;

@@ -8,5 +8,6 @@
         <li><a href="<?php echo BASE_URL; ?>rutas" class="<?php echo ($currentPath === '/rutas') ? 'active' : ''; ?>">Historial de Viajes</a></li>
         <li><a href="<?php echo BASE_URL; ?>geocercas" class="<?php echo ($currentPath === '/geocercas') ? 'active' : ''; ?>">Geocercas</a></li>
         <li><a href="<?php echo BASE_URL; ?>auth/logout">Cerrar sesión</a></li>
+        <img src="<?php echo BASE_URL; ?>img/imagen31deenero.jpg" alt="">
     </ul>
 </nav>

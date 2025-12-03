@@ -24,7 +24,7 @@ body {
     position: fixed;
     top: 0; left: 0; right: 0;
     height: 80px;
-    background-color: #28a745;
+    background-color: #124b1f;
     color: white;
     display: flex;
     align-items: center;
@@ -40,7 +40,7 @@ body {
     left: 0;
     width: 220px;
     height: calc(100vh - 80px); /* altura visible menos header */
-    background: linear-gradient(to bottom, #28a745, #ffffff, #ffc107);
+    background: linear-gradient(to bottom, #0d581f, #ffffff, #07ff28);
     padding-top: 2rem;
     box-shadow: 2px 0 10px rgba(0,0,0,0.1);
     overflow-y: auto; /* scroll vertical si es necesario */
@@ -68,13 +68,13 @@ body {
 
 .dashboard-nav a:hover,
 .dashboard-nav a:focus {
-    background-color: #28a745;
+    background-color: #106624;
     color: white;
 }
 
 /* Enlace activo */
 .dashboard-nav a.active {
-    background-color: #1e7e34;
+    background-color: #199e38;
     color: white;
     font-weight: 700;
 }
@@ -96,7 +96,7 @@ body {
 
 /* Footer fijo en la parte inferior, ancho completo */
 .dashboard-footer {
-    background: linear-gradient(to right, #28a745, #ffc107);
+    background: linear-gradient(to right, #124d20, #4dff07);
     color: white;
     padding: 1rem 2rem;
     text-align: center;
@@ -136,4 +136,11 @@ h1, h2 {
 
 .admin-widget li {
     margin-bottom: 0.5rem;
+}
+.dashboard-nav img {
+    width: 220px;
+    height: auto;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }

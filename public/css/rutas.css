@@ -33,7 +33,7 @@ table {
 }
 
 thead {
-    background: linear-gradient(to right, #28a745, #ffc107);
+    background: linear-gradient(to right, #19692c, #39ff07);
     color: #fff;
 }
 
@@ -62,7 +62,7 @@ td a {
 }
 
 td a:hover {
-    color: #e0a800;
+    color: #276802;
     text-decoration: underline;
 }
 
