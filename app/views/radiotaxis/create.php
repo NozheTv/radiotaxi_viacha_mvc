@@ -20,7 +20,7 @@ require_once APP_ROOT . '/views/partials/sidebar.php';
         </div>
     <?php endif; ?>
 
-    <form id="radiotaxiForm" action="<?php echo BASE_URL; ?>radiotaxis/store" method="post">
+    <form class="form-container" id="radiotaxiForm" action="<?php echo BASE_URL; ?>radiotaxis/store" method="post">
         <label for="placa">Placa</label>
         <input 
             type="text" 

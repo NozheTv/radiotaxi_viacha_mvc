@@ -9,7 +9,7 @@ body {
 /* Enlaces activos en el menú */
 
 .dashboard-nav a.active {
-    color: #155724; /* Un verde oscuro */
+    color: #083b14; /* Un verde oscuro */
     font-weight: bold;
     text-decoration: underline;
 }
@@ -22,7 +22,7 @@ body {
 /* ==== TITULOS PRINCIPALES ==== */
 .dashboard-main h2 {
     margin-bottom: 1.5rem;
-    color: #28a745;
+    color: #03a328;
     font-size: 1.8rem;
     font-weight: 700;
 }
@@ -39,7 +39,7 @@ table {
 }
 
 thead {
-    background: linear-gradient(to right, #28a745, #ffc107); /* Verde → Amarillo */
+    background: linear-gradient(to right, #0b8126, #1cff07); /* Verde → Amarillo */
     color: #fff;
 }
 
@@ -63,7 +63,7 @@ tbody tr:hover {
     display: inline-block;
     padding: 0.6rem 1.25rem;
     margin-bottom: 1.2rem;
-    background: linear-gradient(to right, #28a745, #ffc107);
+    background: linear-gradient(to right, #11461d, #30ff07);
     color: #fff;
     border-radius: 5px;
     text-decoration: none;
@@ -73,7 +73,7 @@ tbody tr:hover {
 }
 
 .btn:hover, .btn-primary:hover {
-    background: linear-gradient(to right, #218838, #e0a800);
+    background: linear-gradient(to right, #0e3d18, #47e000);
     transform: scale(1.03);
 }
 
@@ -84,7 +84,13 @@ form {
     border-radius: 10px;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
     max-width: 600px;
+    
 }
+
+.form-container {
+    margin: 0 auto;
+}
+
 
 fieldset {
     border: none;
@@ -93,7 +99,7 @@ fieldset {
 legend {
     font-size: 1.4rem;
     font-weight: 700;
-    color: #28a745;
+    color: #016e1b;
     margin-bottom: 1rem;
 }
 
@@ -119,14 +125,14 @@ input[type="number"] {
 }
 
 input:focus {
-    border-color: #28a745;
+    border-color: #184e25;
     box-shadow: 0 0 5px rgba(40, 167, 69, 0.3);
     outline: none;
 }
 
 /* Botón de Guardar / Actualizar */
 button[type="submit"] {
-    background: linear-gradient(to right, #28a745, #ffc107);
+    background: linear-gradient(to right, #026d1b, #1cff07);
     color: white;
     padding: 0.75rem 1.5rem;
     border: none;
@@ -137,7 +143,7 @@ button[type="submit"] {
 }
 
 button[type="submit"]:hover {
-    background: linear-gradient(to right, #218838, #e0a800);
+    background: linear-gradient(to right, #016e19, #00e013);
     transform: translateY(-2px);
 }
 .alert-danger {
@@ -152,8 +158,8 @@ button[type="submit"]:hover {
 
 .alert-success {
     color: #fff;
-    background-color: #43a047;
-    border: 1px solid #2e7d32;
+    background-color: #215724;
+    border: 1px solid #1b501d;
     padding: 10px 15px;
     border-radius: 4px;
     margin-bottom: 15px;
@@ -161,7 +167,7 @@ button[type="submit"]:hover {
 }
 /* ==== ACCIONES DE EDITAR Y ELIMINAR ==== */
 td a {
-    color: #28a745;
+    color: #10521f;
     font-weight: 600;
     text-decoration: none;
     margin-right: 0.5rem;
@@ -169,6 +175,6 @@ td a {
 }
 
 td a:hover {
-    color: #e0a800;
+    color: #1ae000;
     text-decoration: underline;
 }

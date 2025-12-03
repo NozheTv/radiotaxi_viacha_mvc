@@ -19,7 +19,7 @@ require_once APP_ROOT . '/views/partials/sidebar.php';
         </div>
     <?php endif; ?>
 
-    <form action="<?php echo BASE_URL; ?>clientes/store" method="post" id="clienteForm">
+    <form class="form-container" action="<?php echo BASE_URL; ?>clientes/store" method="post" id="clienteForm">
         <fieldset>
             <legend>Información de Cliente</legend>
 

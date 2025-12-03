@@ -30,7 +30,7 @@ table {
 }
 
 thead {
-    background: linear-gradient(to right, #28a745, #ffc107); /* Verde → Amarillo */
+    background: linear-gradient(to right, #145523, #39ff07); /* Verde → Amarillo */
     color: #fff;
 }
 
@@ -54,7 +54,7 @@ tbody tr:hover {
     display: inline-block;
     padding: 0.6rem 1.25rem;
     margin-bottom: 1.2rem;
-    background: linear-gradient(to right, #28a745, #ffc107);
+    background: linear-gradient(to right, #186329, #24ff07);
     color: #fff;
     border-radius: 5px;
     text-decoration: none;
@@ -64,7 +64,7 @@ tbody tr:hover {
 }
 
 .btn:hover, .btn-primary:hover {
-    background: linear-gradient(to right, #218838, #e0a800);
+    background: linear-gradient(to right, #175e26, #00e00b);
     transform: scale(1.03);
 }
 
@@ -84,7 +84,7 @@ fieldset {
 legend {
     font-size: 1.4rem;
     font-weight: 700;
-    color: #28a745;
+    color: #145323;
     margin-bottom: 1rem;
 }
 
@@ -117,7 +117,7 @@ input:focus {
 
 /* ==== BOTÓN DE GUARDAR/ACTUALIZAR ==== */
 button[type="submit"] {
-    background: linear-gradient(to right, #28a745, #ffc107);
+    background: linear-gradient(to right, #1b682d, #07ff13);
     color: white;
     padding: 0.75rem 1.5rem;
     border: none;
@@ -128,7 +128,7 @@ button[type="submit"] {
 }
 
 button[type="submit"]:hover {
-    background: linear-gradient(to right, #218838, #e0a800);
+    background: linear-gradient(to right, #218838, #2de000);
     transform: translateY(-2px);
 }
 
@@ -142,7 +142,7 @@ td a {
 }
 
 td a:hover {
-    color: #e0a800;
+    color: #13e000;
     text-decoration: underline;
 }
 .alert-danger {
@@ -152,4 +152,7 @@ td a:hover {
     border-radius: 4px;
     margin-bottom: 15px;
     font-weight: bold;
+}
+.form-container {
+    margin: 0 auto;
 }
