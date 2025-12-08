@@ -19,11 +19,11 @@ body {
 }
 /* Botón "Ver" */
 .btn-ver {
-    background: linear-gradient(to right, #40c776, #66ffab);
+    background: linear-gradient(to right, #174d2c, #236440);
 }
 
 .btn-ver:hover {
-    background: linear-gradient(to right, #2f3d4a, #55e26a);
+    background: linear-gradient(to right, #2f3d4a, #235f2c);
     transform: translateY(-2px);
 }
 
@@ -56,7 +56,7 @@ table {
 }
 
 thead {
-    background: linear-gradient(to right, #40c776, #e6a927);
+    background: linear-gradient(to right, #1c5734, #7de627);
     color: #fff;
 }
 
@@ -80,7 +80,7 @@ tbody tr:hover {
     display: inline-block;
     padding: 0.6rem 1.25rem;
     margin-bottom: 1.25rem;
-    background: linear-gradient(to right, #40c781, #03b32c);
+    background: linear-gradient(to right, #40c781, #025e17);
     color: #fff;
     border-radius: 5px;
     text-decoration: none;
@@ -132,7 +132,7 @@ select {
     width: 100%;
     padding: 0.65rem;
     margin-bottom: 1.2rem;
-    border: 1px solid #19d819;
+    border: 1px solid #0c5a0c;
     border-radius: 6px;
     font-size: 1rem;
     transition: border-color 0.3s ease, box-shadow 0.2s ease;
@@ -149,7 +149,7 @@ select:focus {
 a.btn-link {
     display: inline-block;
     padding: 0.6rem 1.25rem;
-    background: linear-gradient(to right, #40c781, #66ff8a);
+    background: linear-gradient(to right, #40c781, #1c4726);
     color: #fff;
     border-radius: 5px;
     font-weight: 600;
@@ -211,7 +211,7 @@ button#btnLimpiar:hover {
 
 /* ==== ESTILO DE ENLACES ==== */
 a {
-    color: #40c766;
+    color: #1d582e;
     text-decoration: none;
 }
 

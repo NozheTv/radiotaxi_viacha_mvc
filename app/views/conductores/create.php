@@ -19,7 +19,7 @@ require_once APP_ROOT . '/views/partials/sidebar.php';
         </div>
     <?php endif; ?>
 
-    <form action="<?php echo BASE_URL; ?>conductores/store" method="post" id="conductorForm">
+    <form class="form-container" action="<?php echo BASE_URL; ?>conductores/store" method="post" id="conductorForm">
         <fieldset>
             <legend>Información de Conductor</legend>
 
