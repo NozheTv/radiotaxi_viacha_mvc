@@ -5,10 +5,7 @@
     padding: 0;
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
-.dashboard-main {
-    flex-grow: 1; /* hace que el contenido principal crezca y empuje el footer */
-    padding: 1rem; /* opcional, para espacio interno */
-}
+
 body {
     background-color: #f4f7fa;
     color: #333;
@@ -79,6 +76,7 @@ body {
     font-weight: 700;
 }
 
+/* Wrapper para contenido principal con espacio para sidebar y header */
 .content-wrapper {
     margin-left: 220px; /* espacio para sidebar */
     margin-top: 80px;  /* espacio para header */
@@ -87,7 +85,7 @@ body {
     padding: 2rem;
 }
 
-/* Contenido principal */
+/* Contenido principal del dashboard */
 .dashboard-main {
     margin-left: 220px;
     padding: 2rem;
@@ -103,7 +101,7 @@ body {
     font-weight: 600;
 }
 
-/* Títulos */
+/* Títulos generales */
 h1, h2 {
     font-weight: 700;
 }
@@ -112,23 +110,38 @@ h1, h2 {
     margin-bottom: 1rem;
 }
 
-/* Secciones resumen */
+/* Contenedor de secciones del dashboard con flex para ordenar widgets en columnas */
 .dashboard-sections {
     background: #fff;
     border-radius: 8px;
     padding: 1rem 2rem;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    
+    display: flex;
+    flex-wrap: wrap;      /* Para que los widgets fluyan en varias filas */
+    gap: 1.5rem;          /* Espacio entre widgets */
 }
 
-/* Pequeños widgets administrativos */
+/* Widgets administrativos */
 .admin-widget {
-    margin-bottom: 2rem;
+    background-color: #fafafa;
+    border-radius: 8px;
+    padding: 1rem 1.5rem;
+    box-shadow: 0 1px 5px rgba(0,0,0,0.05);
+    
+    flex: 1 1 300px;      /* Crece, encoge, base 300px */
+    max-width: 400px;     /* Máximo ancho posible */
+    min-width: 280px;     /* Mínimo para evitar apretar demasiado */
 }
 
+/* Títulos de widgets */
 .admin-widget h3 {
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.8rem;
+    font-weight: 600;
+    color: #28a745;
 }
 
+/* Listas dentro de widgets */
 .admin-widget ul {
     list-style: none;
     padding-left: 1rem;
@@ -137,10 +150,4 @@ h1, h2 {
 .admin-widget li {
     margin-bottom: 0.5rem;
 }
-.dashboard-nav img {
-    width: 220px;
-    height: auto;
-    border-radius: 50%;
-    object-fit: cover;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
+

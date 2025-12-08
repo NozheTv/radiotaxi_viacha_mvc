@@ -20,21 +20,21 @@ $detalles = json_decode($detalle['detalles_ruta'], true) ?? [];
         <ul>
             <li>Nombre: <?= htmlspecialchars($detalle['conductor_nombre']) ?></li>
             <li>Email: <?= htmlspecialchars($detalle['conductor_email']) ?></li>
-            <li>Teléfono: <?= htmlspecialchars($detalle['conductor_telefono']) ?></li>
+            <li>Teléfono: <?= htmlspecialchars($detalle['cliente_telefono'] ?? '') ?></li>
+            <li>Teléfono: <?= htmlspecialchars($detalle['conductor_telefono'] ?? '') ?></li>
+
         </ul>
 
         <h3>Detalles de la Ruta</h3>
-        <?php if (!empty($detalles)): ?>
-            <pre><?= json_encode($detalles, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) ?></pre>
-        <?php else: ?>
-            <p>No hay detalles específicos para esta ruta.</p>
-        <?php endif; ?>
-
-        <h3>Evaluación</h3>
-        <ul>
-            <li>Evaluación Cliente: <?= htmlspecialchars($detalle['evaluacion_cliente'] ?? 'N/A') ?></li>
-            <li>Evaluación Conductor: <?= htmlspecialchars($detalle['evaluacion_conductor'] ?? 'N/A') ?></li>
-        </ul>
+            <?php if (!empty($detalles)): ?>
+                <ul>
+                    <li><strong>Distancia recorrida:</strong> <?= htmlspecialchars($detalles['distancia_km'] ?? 'N/A') ?> kilómetros</li>
+                    <li><strong>Tiempo estimado del viaje:</strong> <?= htmlspecialchars($detalles['tiempo_min'] ?? 'N/A') ?> minutos</li>
+                    <li><strong>Ruta seguida:</strong> <?= htmlspecialchars($detalles['ruta_tomada'] ?? 'N/A') ?></li>
+                </ul>
+            <?php else: ?>
+                <p>No hay detalles específicos para esta ruta.</p>
+            <?php endif; ?>
     </section>
 </main>
 

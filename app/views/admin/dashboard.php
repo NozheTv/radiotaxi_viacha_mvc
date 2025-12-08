@@ -9,9 +9,9 @@ require_once APP_ROOT . '/views/partials/sidebar.php';
 
 <main class="dashboard-main">
     <h2>Bienvenido, Administrador</h2>
-    <section class="dashboard-sections">
+        <section class="dashboard-sections">
 
-        <!-- Resumen general -->
+        <!-- Widgets existentes -->
         <div class="admin-widget">
             <h3>Resumen del Sistema</h3>
             <ul>
@@ -22,7 +22,6 @@ require_once APP_ROOT . '/views/partials/sidebar.php';
             </ul>
         </div>
 
-        <!-- Alertas o tareas administrativas -->
         <div class="admin-widget">
             <h3>Alertas del Sistema</h3>
             <ul>
@@ -32,7 +31,6 @@ require_once APP_ROOT . '/views/partials/sidebar.php';
             </ul>
         </div>
 
-        <!-- Tareas sugeridas -->
         <div class="admin-widget">
             <h3>Tareas Recomendadas</h3>
             <ul>
@@ -40,6 +38,22 @@ require_once APP_ROOT . '/views/partials/sidebar.php';
                 <li>✔️ Confirmar asignación de vehículos a nuevos conductores.</li>
                 <li>✔️ Verificar que todas las zonas tengan tarifas válidas.</li>
             </ul>
+        </div>
+
+        <!-- Nuevos gráficos -->
+        <div class="admin-widget">
+            <h3>Usuarios registrados por día</h3>
+            <canvas id="usuariosChart" width="400" height="200"></canvas>
+        </div>
+
+        <div class="admin-widget">
+            <h3>Viajes por estado</h3>
+            <canvas id="viajesChart" width="400" height="200"></canvas>
+        </div>
+
+        <div class="admin-widget">
+            <h3>Tipos de geocercas configuradas</h3>
+            <canvas id="geocercasChart" width="400" height="200"></canvas>
         </div>
 
     </section>
