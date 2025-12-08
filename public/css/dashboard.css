@@ -69,6 +69,16 @@ body {
     color: white;
 }
 
+.sidebar-logo {
+    display: block;        /* para que se comporte como bloque y pueda tener margen */
+    width: 150px;          /* ancho deseado, ajusta a tu preferencia */
+    height: auto;          /* mantiene proporción */
+    margin: 0 auto 1rem;   /* centra horizontalmente y separa abajo */
+    border-radius: 8px;    /* opcional: bordes redondos */
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2); /* opcional: sombra para destacar */
+}
+
+
 /* Enlace activo */
 .dashboard-nav a.active {
     background-color: #199e38;
