@@ -29,8 +29,8 @@ class HistorialRuta {
     public function getHistorialPorId($id) {
         $query = "
             SELECT hr.*, 
-                c.nombre AS cliente_nombre, c.correo AS cliente_email, c.telefono AS cliente_telefono,
-                co.nombre AS conductor_nombre, co.correo AS conductor_email, co.telefono AS conductor_telefono
+                c.nombre AS cliente_nombre, c.email AS cliente_email, c.telefono AS cliente_telefono,
+                co.nombre AS conductor_nombre, co.email AS conductor_email, co.telefono AS conductor_telefono
             FROM historial_rutas hr
             JOIN pedidos p ON hr.id_pedido = p.id
             JOIN usuarios c ON p.id_cliente = c.id
